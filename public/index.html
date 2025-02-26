@@ -10,34 +10,58 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>React App</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <div id="root">
+      <table id="carbTable">
+        <thead>
+          <tr>
+            <th>Foods Eaten</th>
+            <th>Grams of Carbohydrate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" placeholder="Enter food"></td>
+            <td><input type="number" class="carb-input" placeholder="Enter grams"></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Total</td>
+            <td id="totalCarbs">0</td>
+          </tr>
+        </tfoot>
+      </table>
+      <button onclick="addRow()">Add Row</button>
+    </div>
+    <script>
+      function addRow() {
+        const table = document.getElementById('carbTable').getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+        const newCell1 = newRow.insertCell(0);
+        const newCell2 = newRow.insertCell(1);
+        newCell1.innerHTML = '<input type="text" placeholder="Enter food">';
+        newCell2.innerHTML = '<input type="number" class="carb-input" placeholder="Enter grams">';
+        updateTotal();
+      }
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+      function updateTotal() {
+        const inputs = document.getElementsByClassName('carb-input');
+        let total = 0;
+        for (let i = 0; i < inputs.length; i++) {
+          const val = parseFloat(inputs[i].value);
+          if (!isNaN(val)) {
+            total += val;
+          }
+        }
+        document.getElementById('totalCarbs').innerText = total;
+      }
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+      document.addEventListener('input', updateTotal);
+    </script>
   </body>
 </html>
