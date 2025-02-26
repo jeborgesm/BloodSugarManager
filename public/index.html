@@ -131,46 +131,46 @@
         </div>
       </div>
     
-    <script>
-      function addRow() {
-        const table = document.getElementById('carbTable').getElementsByTagName('tbody')[0];
-        const newRow = table.insertRow();
-        const newCell1 = newRow.insertCell(0);
-        const newCell2 = newRow.insertCell(1);
-        newCell1.innerHTML = '<input type="text" placeholder="Enter food" class="form-control">';
-        newCell2.innerHTML = '<input type="number" class="form-control carb-input" placeholder="Enter grams">';
-        updateTotal();
-      }
+<script>
+  function addRow() {
+    const table = document.getElementById('carbTable').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+    const newCell1 = newRow.insertCell(0);
+    const newCell2 = newRow.insertCell(1);
+    newCell1.innerHTML = '<input type="text" placeholder="Enter food" class="form-control">';
+    newCell2.innerHTML = '<input type="number" class="form-control carb-input" placeholder="Enter grams">';
+    updateTotal();
+  }
 
-      function updateTotal() {
-        const inputs = document.getElementsByClassName('carb-input');
-        let total = 0;
-        for (let i = 0; i < inputs.length; i++) {
-          const val = parseFloat(inputs[i].value);
-          if (!isNaN(val)) {
-            total += val;
-          }
-        }
-        document.getElementById('totalCarbs').innerText = total;
-        document.getElementById('totalCarbInput').value = total;
-        updateInsulinUnits();
+  function updateTotal() {
+    const inputs = document.getElementsByClassName('carb-input');
+    let total = 0;
+    for (let i = 0; i < inputs.length; i++) {
+      const val = parseFloat(inputs[i].value);
+      if (!isNaN(val)) {
+        total += val;
       }
+    }
+    document.getElementById('totalCarbs').innerText = total;
+    document.getElementById('totalCarbInput').value = total;
+    updateInsulinUnits();
+  }
 
-      function updateInsulinUnits() {
-        const totalCarbs = parseFloat(document.getElementById('totalCarbInput').value);
-        const ratio = parseFloat(document.getElementById('ratioInput').value);
-        const ratio2 = parseFloat(document.getElementById('ratioInput2').value);
-        if (!isNaN(totalCarbs) && !isNaN(ratio) && !isNaN(ratio2) && ratio == ratio2) {
-          document.getElementById('insulinUnits').innerText = (totalCarbs / ratio).toFixed(2);
-        } else {
-          document.getElementById('insulinUnits').innerText = '0';
-        }
-      }
+  function updateInsulinUnits() {
+    const totalCarbs = parseFloat(document.getElementById('totalCarbInput').value);
+    const ratio = parseFloat(document.getElementById('ratioInput').value);
+    const ratio2 = parseFloat(document.getElementById('ratioInput2').value);
+    if (!isNaN(totalCarbs) && !isNaN(ratio) && !isNaN(ratio2)) {
+      document.getElementById('insulinUnits').innerText = (totalCarbs / ratio).toFixed(2);
+    } else {
+      document.getElementById('insulinUnits').innerText = '0';
+    }
+  }
 
-      document.addEventListener('input', updateTotal);
-      document.getElementById('ratioInput').addEventListener('input', updateInsulinUnits);
-      document.getElementById('ratioInput2').addEventListener('input', updateInsulinUnits);
-      document.getElementById('totalCarbInput').addEventListener('input', updateInsulinUnits);
-    </script>
+  document.addEventListener('input', updateTotal);
+  document.getElementById('ratioInput').addEventListener('input', updateInsulinUnits);
+  document.getElementById('ratioInput2').addEventListener('input', updateInsulinUnits);
+  document.getElementById('totalCarbInput').addEventListener('input', updateInsulinUnits);
+</script>
   </body>
 </html>
