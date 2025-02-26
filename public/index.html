@@ -159,17 +159,23 @@
   function updateInsulinUnits() {
     const totalCarbs = parseFloat(document.getElementById('totalCarbInput').value);
     const ratio = parseFloat(document.getElementById('ratioInput').value);
-    const ratio2 = parseFloat(document.getElementById('ratioInput2').value);
-    if (!isNaN(totalCarbs) && !isNaN(ratio) && !isNaN(ratio2)) {
+    if (!isNaN(totalCarbs) && !isNaN(ratio)) {
       document.getElementById('insulinUnits').innerText = (totalCarbs / ratio).toFixed(2);
     } else {
       document.getElementById('insulinUnits').innerText = '0';
     }
   }
 
+  function syncRatioInputs(event) {
+    const value = event.target.value;
+    document.getElementById('ratioInput').value = value;
+    document.getElementById('ratioInput2').value = value;
+    updateInsulinUnits();
+  }
+
   document.addEventListener('input', updateTotal);
-  document.getElementById('ratioInput').addEventListener('input', updateInsulinUnits);
-  document.getElementById('ratioInput2').addEventListener('input', updateInsulinUnits);
+  document.getElementById('ratioInput').addEventListener('input', syncRatioInputs);
+  document.getElementById('ratioInput2').addEventListener('input', syncRatioInputs);
   document.getElementById('totalCarbInput').addEventListener('input', updateInsulinUnits);
 </script>
   </body>
