@@ -65,7 +65,20 @@
       <br/>
       <div class="card">
         <div class="card-header">
-          <h3>High Blood Sugar Correction: Give 1 unit of Insulin for 50 mg/dL over 150</h3>
+          <h3>1 unit of rapid-acting insulin for every <input type="number" id="ratioInput" value="20" class="form-control d-inline-block w-auto"> grams of carbohydrates</h3>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+          <p>Total grams of carbohydrate: <input type="number" id="totalCarbInput" value="0" class="form-control d-inline-block w-auto"> g / 
+          <input type="number" id="ratioInput2" value="20" class="form-control d-inline-block w-auto"> = 
+          <span id="insulinUnits">0</span> units rapid-acting insulin for meal.</p>
+        </div>
+      </div>
+    </div>
+      <br/>
+      <div class="card">
+        <div class="card-header">
+          <h2>High Blood Sugar Correction: Give 1 unit of Insulin for 50 mg/dL over 150</h2>
         </div>
         <div class="card-body">
           <h5 class="card-title"></h5>
@@ -117,19 +130,7 @@
           </table>
         </div>
       </div>
-      <br/>
-      <div class="card">
-        <div class="card-header">
-          <h3>1 unit of rapid-acting insulin for every <input type="number" id="ratioInput" value="20" class="form-control d-inline-block w-auto"> grams of carbohydrates</h3>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title"></h5>
-          <p>Total grams of carbohydrate: <input type="number" id="totalCarbInput" value="0" class="form-control d-inline-block w-auto"> g / 
-          <input type="number" id="ratioInput2" value="20" class="form-control d-inline-block w-auto"> = 
-          <span id="insulinUnits">0</span> units rapid-acting insulin for meal.</p>
-        </div>
-      </div>
-    </div>
+    
     <script>
       function addRow() {
         const table = document.getElementById('carbTable').getElementsByTagName('tbody')[0];
