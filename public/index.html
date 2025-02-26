@@ -127,6 +127,12 @@
               </tr>
             </tbody>
           </table>
+          <div>
+            <label for="currentBloodSugar">Current Blood Sugar</label>
+            <input type="number" id="currentBloodSugar" class="form-control d-inline-block w-auto">
+            <label for="correctionInsulin">Units of Insulin for correction</label>
+            <input type="number" id="correctionInsulin" class="form-control d-inline-block w-auto" readonly>
+          </div>
         </div>
       </div>
       <br/>
@@ -137,7 +143,7 @@
         <div class="card-body">
           <p><input type="number" id="carbInsulin" class="form-control d-inline-block w-auto"> units for carbohydrate coverage</p>
           <p><input type="number" id="highBloodSugarInsulin" class="form-control d-inline-block w-auto"> + units for high blood sugar</p>
-          <p><h3><span id="totalInsulin">0</span> = TOTAL UNITS of rapid-acting insulin</h3></p>
+          <p><span id="totalInsulin" class="form-control d-inline-block w-auto"></span> = total units of rapid-acting insulin</p>
         </div>
       </div>
     </div>
@@ -197,12 +203,34 @@
         updateInsulinUnits();
       }
 
+      function updateCorrectionInsulin() {
+        const currentBloodSugar = parseFloat(document.getElementById('currentBloodSugar').value);
+        const insulinTable = document.getElementById('insulinTable').getElementsByTagName('tbody')[0];
+        if (!isNaN(currentBloodSugar)) {
+          for (let i = 0; i < insulinTable.rows.length; i++) {
+            const min = parseFloat(insulinTable.rows[i].cells[0].innerText.split(' - ')[0]);
+            const max = parseFloat(insulinTable.rows[i].cells[0].innerText.split(' - ')[1]);
+            if (currentBloodSugar >= min && currentBloodSugar <= max) {
+              const units = parseFloat(insulinTable.rows[i].cells[1].innerText);
+              document.getElementById('correctionInsulin').value = units;
+              document.getElementById('highBloodSugarInsulin').value = units;
+              updateTotalInsulin();
+              return;
+            }
+          }
+        }
+        document.getElementById('correctionInsulin').value = '0';
+        document.getElementById('highBloodSugarInsulin').value = '0';
+        updateTotalInsulin();
+      }
+
       document.addEventListener('input', updateTotal);
       document.getElementById('ratioInput').addEventListener('input', syncRatioInputs);
       document.getElementById('ratioInput2').addEventListener('input', syncRatioInputs);
       document.getElementById('totalCarbInput').addEventListener('input', updateInsulinUnits);
       document.getElementById('carbInsulin').addEventListener('input', updateTotalInsulin);
       document.getElementById('highBloodSugarInsulin').addEventListener('input', updateTotalInsulin);
+      document.getElementById('currentBloodSugar').addEventListener('input', updateCorrectionInsulin);
     </script>
   </body>
 </html>
