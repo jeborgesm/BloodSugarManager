@@ -142,10 +142,16 @@
         </div>
         <div class="card-body">
           <p><input type="number" id="carbInsulin" class="form-control d-inline-block w-auto"> units for carbohydrate coverage</p>
-          <p><input type="number" id="highBloodSugarInsulin" class="form-control d-inline-block w-auto"> + units for high blood sugar</p>
-          <p><span id="totalInsulin" class="form-control d-inline-block w-auto"></span> = total units of rapid-acting insulin</p>
+          <p><input type="number" id="highBloodSugarInsulin" class="form-control d-inline-block w-auto"> + units for high blood sugar (based on the High Blood Sugar Correction table) </p>
         </div>
       </div>
+<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+  <div class="card-header">TOTAL UNITS of rapid-acting insulin</div>
+  <div class="card-body">
+    <h3 class="card-title"><span id="totalInsulin" class="form-control d-inline-block w-auto"></span></h3>
+  </div>
+</div>
+      
     </div>
     <script>
       function addRow() {
