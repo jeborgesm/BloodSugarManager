@@ -64,60 +64,71 @@
     <div>
       <br/>
       <div class="card">
-  <div class="card-header">
-<h3></h3>High Blood Sugar Correction: Give 1 unit of Insulin for 50 mg/dL over 150</h3>
-  </div>
-  <div class="card-body">
-    <h5 class="card-title"></h5>
-<table id="insulinTable" class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Blood Sugar (mg/dL)</th>
-            <th>Insulin (units)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>150 - 199</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td>200 - 249</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <td>250 - 299</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>300 - 349</td>
-            <td>4</td>
-          </tr>
-          <tr>
-            <td>350 - 399</td>
-            <td>5</td>
-          </tr>
-          <tr>
-            <td>400 - 449</td>
-            <td>6</td>
-          </tr>
-          <tr>
-            <td>450 - 499</td>
-            <td>7</td>
-          </tr>
-          <tr>
-            <td>500 - 549</td>
-            <td>8</td>
-          </tr>
-          <tr>
-            <td>550 - 599</td>
-            <td>9</td>
-          </tr>
-        </tbody>
-      </table>
-  </div>
-</div>
-     
+        <div class="card-header">
+          <h3>High Blood Sugar Correction: Give 1 unit of Insulin for 50 mg/dL over 150</h3>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+          <table id="insulinTable" class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Blood Sugar (mg/dL)</th>
+                <th>Insulin (units)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>150 - 199</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>200 - 249</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>250 - 299</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>300 - 349</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>350 - 399</td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td>400 - 449</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>450 - 499</td>
+                <td>7</td>
+              </tr>
+              <tr>
+                <td>500 - 549</td>
+                <td>8</td>
+              </tr>
+              <tr>
+                <td>550 - 599</td>
+                <td>9</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br/>
+      <div class="card">
+        <div class="card-header">
+          <h3>1 unit of rapid-acting insulin for every <input type="number" id="ratioInput" value="20" class="form-control d-inline-block w-auto"> grams of carbohydrates</h3>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+          <p>Total grams of carbohydrate: <input type="number" id="totalCarbInput" value="0" class="form-control d-inline-block w-auto"> g / 
+          <input type="number" id="ratioInput2" value="20" class="form-control d-inline-block w-auto"> = 
+          <span id="insulinUnits">0</span> units rapid-acting insulin for meal.</p>
+        </div>
+      </div>
     </div>
     <script>
       function addRow() {
@@ -140,9 +151,25 @@
           }
         }
         document.getElementById('totalCarbs').innerText = total;
+        document.getElementById('totalCarbInput').value = total;
+        updateInsulinUnits();
+      }
+
+      function updateInsulinUnits() {
+        const totalCarbs = parseFloat(document.getElementById('totalCarbInput').value);
+        const ratio = parseFloat(document.getElementById('ratioInput').value);
+        const ratio2 = parseFloat(document.getElementById('ratioInput2').value);
+        if (!isNaN(totalCarbs) && !isNaN(ratio) && !isNaN(ratio2) && ratio == ratio2) {
+          document.getElementById('insulinUnits').innerText = (totalCarbs / ratio).toFixed(2);
+        } else {
+          document.getElementById('insulinUnits').innerText = '0';
+        }
       }
 
       document.addEventListener('input', updateTotal);
+      document.getElementById('ratioInput').addEventListener('input', updateInsulinUnits);
+      document.getElementById('ratioInput2').addEventListener('input', updateInsulinUnits);
+      document.getElementById('totalCarbInput').addEventListener('input', updateInsulinUnits);
     </script>
   </body>
 </html>
