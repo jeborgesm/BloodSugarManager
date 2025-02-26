@@ -12,11 +12,34 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>React App</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      th {
+        background-color: #007bff;
+        color: white;
+      }
+      tfoot {
+        background-color: #007bff;
+        color: white;
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-      <table id="carbTable">
+      <table id="carbTable" class="table table-bordered">
         <thead>
           <tr>
             <th>Foods Eaten</th>
@@ -25,8 +48,8 @@
         </thead>
         <tbody>
           <tr>
-            <td><input type="text" placeholder="Enter food"></td>
-            <td><input type="number" class="carb-input" placeholder="Enter grams"></td>
+            <td><input type="text" placeholder="Enter food" class="form-control"></td>
+            <td><input type="number" class="form-control carb-input" placeholder="Enter grams"></td>
           </tr>
         </tbody>
         <tfoot>
@@ -36,51 +59,55 @@
           </tr>
         </tfoot>
       </table>
-      <button onclick="addRow()">Add Row</button>
+      <button onclick="addRow()" class="btn btn-primary">Add Row</button>
     </div>
     <div>
       <h2>High Blood Sugar Correction: Give 1 unit of Insulin for 50 mg/dL over 150</h2>
-      <table id="insulinTable">
-        <tr>
-          <th>Blood Sugar (mg/dL)</th>
-          <th>Insulin (units)</th>
-        </tr>
-        <tr>
-          <td>150 - 199</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>200 - 249</td>
-          <td>2</td>
-        </tr>
-        <tr>
-          <td>250 - 299</td>
-          <td>3</td>
-        </tr>
-        <tr>
-          <td>300 - 349</td>
-          <td>4</td>
-        </tr>
-        <tr>
-          <td>350 - 399</td>
-          <td>5</td>
-        </tr>
-        <tr>
-          <td>400 - 449</td>
-          <td>6</td>
-        </tr>
-        <tr>
-          <td>450 - 499</td>
-          <td>7</td>
-        </tr>
-        <tr>
-          <td>500 - 549</td>
-          <td>8</td>
-        </tr>
-        <tr>
-          <td>550 - 599</td>
-          <td>9</td>
-        </tr>
+      <table id="insulinTable" class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Blood Sugar (mg/dL)</th>
+            <th>Insulin (units)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>150 - 199</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>200 - 249</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>250 - 299</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>300 - 349</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>350 - 399</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>400 - 449</td>
+            <td>6</td>
+          </tr>
+          <tr>
+            <td>450 - 499</td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td>500 - 549</td>
+            <td>8</td>
+          </tr>
+          <tr>
+            <td>550 - 599</td>
+            <td>9</td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <script>
@@ -89,8 +116,8 @@
         const newRow = table.insertRow();
         const newCell1 = newRow.insertCell(0);
         const newCell2 = newRow.insertCell(1);
-        newCell1.innerHTML = '<input type="text" placeholder="Enter food">';
-        newCell2.innerHTML = '<input type="number" class="carb-input" placeholder="Enter grams">';
+        newCell1.innerHTML = '<input type="text" placeholder="Enter food" class="form-control">';
+        newCell2.innerHTML = '<input type="number" class="form-control carb-input" placeholder="Enter grams">';
         updateTotal();
       }
 
