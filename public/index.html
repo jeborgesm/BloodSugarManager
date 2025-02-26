@@ -38,6 +38,51 @@
       </table>
       <button onclick="addRow()">Add Row</button>
     </div>
+    <div>
+      <h2>High Blood Sugar Correction: Give 1 unit of Insulin for 50 mg/dL over 150</h2>
+      <table id="insulinTable">
+        <tr>
+          <th>Blood Sugar (mg/dL)</th>
+          <th>Insulin (units)</th>
+        </tr>
+        <tr>
+          <td>150 - 199</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>200 - 249</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>250 - 299</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>300 - 349</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>350 - 399</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>400 - 449</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td>450 - 499</td>
+          <td>7</td>
+        </tr>
+        <tr>
+          <td>500 - 549</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>550 - 599</td>
+          <td>9</td>
+        </tr>
+      </table>
+    </div>
     <script>
       function addRow() {
         const table = document.getElementById('carbTable').getElementsByTagName('tbody')[0];
