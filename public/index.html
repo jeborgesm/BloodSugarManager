@@ -136,8 +136,8 @@
         </div>
         <div class="card-body">
           <p><input type="number" id="carbInsulin" class="form-control d-inline-block w-auto"> units for carbohydrate coverage</p>
-          <p><input type="number" id="highBloodSugarInsulin" class="form-control d-inline-block w-auto"> + units for high blood sugar (Use the correction table to get the unit based on blood sugar range)</p>
-          <p><h2><input type="number" id="totalInsulin" class="form-control d-inline-block w-auto" readonly> = TOTAL units of rapid-acting insulin</h2></p>
+          <p><input type="number" id="highBloodSugarInsulin" class="form-control d-inline-block w-auto"> + units for high blood sugar</p>
+          <p><h3><span id="totalInsulin" class="form-control d-inline-block w-auto"></span> = TOTAL UNITS of rapid-acting insulin</h3></p>
         </div>
       </div>
     </div>
@@ -184,9 +184,9 @@
         const carbInsulin = parseFloat(document.getElementById('carbInsulin').value);
         const highBloodSugarInsulin = parseFloat(document.getElementById('highBloodSugarInsulin').value);
         if (!isNaN(carbInsulin) && !isNaN(highBloodSugarInsulin)) {
-          document.getElementById('totalInsulin').value = (carbInsulin + highBloodSugarInsulin).toFixed(2);
+          document.getElementById('totalInsulin').innerText = (carbInsulin + highBloodSugarInsulin).toFixed(2);
         } else {
-          document.getElementById('totalInsulin').value = '0';
+          document.getElementById('totalInsulin').innerText = '0';
         }
       }
 
