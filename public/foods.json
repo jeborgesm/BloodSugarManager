@@ -1,0 +1,14 @@
+{
+    "foods": [
+        {"name": "Apple", "carbs": 25},
+        {"name": "Banana", "carbs": 27},
+        {"name": "Orange", "carbs": 15},
+        {"name": "Strawberry", "carbs": 8},
+        {"name": "Grapes", "carbs": 17},
+        {"name": "Blueberries", "carbs": 21},
+        {"name": "Carrot", "carbs": 10},
+        {"name": "Broccoli", "carbs": 6},
+        {"name": "Spinach", "carbs": 1},
+        {"name": "Potato", "carbs": 37}
+    ]
+}
