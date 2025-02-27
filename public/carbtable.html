@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carb Table</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Carb Table</h1>
+        <input type="text" id="food-input" placeholder="Enter food">
+        <div id="dropdown" class="dropdown-content"></div>
+        <table id="carbTable">
+            <!-- Table structure similar to index.html -->
+        </table>
+        <div>Total Carbohydrates: <span id="total-carbs">0</span> grams</div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            let totalCarbs = 0;
+
+            $('#food-input').on('input', function() {
+                let query = $(this).val();
+                if (query.length > 2) {
+                    $.ajax({
+                        url: `https://platform.fatsecret.com/rest/server.api?method=foods.search&search_expression=${query}&format=json`,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwOEFEREZGRjZBNDkxOUFBNDE4QkREQTYwMDcwQzE5NzNDRjMzMUUiLCJ0eXAiOiJhdCtqd3QiLCJ4NXQiOiJFSXJkX19ha2tacWtHTDNhWUFjTUdYUFBNeDQifQ.eyJuYmYiOjE3NDA2MjI5NTEsImV4cCI6MTc0MDcwOTM1MSwiaXNzIjoiaHR0cHM6Ly9vYXV0aC5mYXRzZWNyZXQuY29tIiwiYXVkIjoiYmFzaWMiLCJjbGllbnRfaWQiOiIxNTUwYTA4YTEyYTk0M2NkODE0ODI0Y2U2NTJjYjhiMSIsInNjb3BlIjpbImJhc2ljIl19.XqLlaIvDSZ6mxOPgiyTewFzWcbXk3gOgkFOs00HLSVJksK_Cka6yNDpX69AAxI_wIy68F1VUBFiUML2xqUeVvdzyjbb09T2gYjDyMty9zIBFn6gsP-pn0yBzs98Amvr4cGjsQOcQK-QUbbou7AZvv8NT9QMdP7D7paevEfbuPto12vUl46lYt3z2Po-OyCK_cdOq6c8GwiWv6uOvq8hmHnrhDt3N8fo_E2OcmdXOJEkiRd3dVuiWweGzECvMFvc0Fbcu2HqZVtfby1RqBEZ1BQjPwUT59sGiunYkSCmCCXpyyxNU0P2M6bk1nvILbmYTnsZzbznm0WVVIW7B_cW3vt8-I8_hjALu5fHWcLuei64B-4EquEKxbcpDaNPnWVza4OhNatVtVkE9nei1eJyvekIBgYYlrKaCQ80qhCh1w54WkOAOksdoAJHV7ZqRsyeP7l6pM6IpVx-8fGkEKFTVNisbEgmpzCw304OgGpJFecmkK9t_DHm8nhhRIUJf4OPVSMdE0brapGshlSfGFkXZ_hlMHwdmF-0Jsw6YMPwIq_OtQzwq5IMhfg767STxXMVeqlDgtgZp35g2dDnbbIdJKck5anVuKrZD-e-llQpySG2JgditJNXjuSn_yvpQsLr_cqxMmId68nRsBKcAA1SgiSkQ6JUEDxGd42CxBRS_po4'
+                        },
+                        success: function(response) {
+                            let foods = response.foods.food;
+                            let dropdownContent = '';
+                            foods.forEach(food => {
+                                dropdownContent += `<div class="dropdown-item" data-carbs="${food.carbohydrate}" data-name="${food.name}">${food.name} - ${food.carbohydrate}g</div>`;
+                            });
+                            $('#dropdown').html(dropdownContent).show();
+                        }
+                    });
+                } else {
+                    $('#dropdown').hide();
+                }
+            });
+
+            $(document).on('click', '.dropdown-item', function() {
+                let foodName = $(this).data('name');
+                let carbs = parseFloat($(this).data('carbs'));
+                $('#carbTable').append(`<tr><td>${foodName}</td><td>${carbs}</td></tr>`);
+                totalCarbs += carbs;
+                $('#total-carbs').text(totalCarbs);
+                $('#food-input').val('');
+                $('#dropdown').hide();
+            });
+
+            // Hide dropdown when clicking outside
+            $(document).click(function(event) {
+                if (!$(event.target).closest('#food-input').length) {
+                    $('#dropdown').hide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
