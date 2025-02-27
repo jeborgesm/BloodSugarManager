@@ -24,10 +24,41 @@
             </tbody>
         </table>
         <div>Total Carbohydrates: <span id="total-carbs">0</span> grams</div>
+
+        <h2>Food List</h2>
+        <table id="foodListTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Food</th>
+                    <th>Carbohydrates (g)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here dynamically -->
+            </tbody>
+        </table>
+        <div>Total Selected Carbohydrates: <span id="selected-total-carbs">0</span> grams</div>
     </div>
     <script>
         $(document).ready(function() {
             let totalCarbs = 0;
+            let selectedTotalCarbs = 0;
+
+            // Load food list from JSON and populate the table
+            $.getJSON('/static/foods.json', function(data) {
+                let foodListContent = '';
+                data.foods.forEach(food => {
+                    foodListContent += `
+                        <tr>
+                            <td><input type="checkbox" class="food-checkbox" data-carbs="${food.carbs}" data-name="${food.name}"></td>
+                            <td>${food.name}</td>
+                            <td>${food.carbs}</td>
+                        </tr>
+                    `;
+                });
+                $('#foodListTable tbody').html(foodListContent);
+            });
 
             $('#food-input').on('input', function() {
                 let query = $(this).val().toLowerCase();
@@ -36,7 +67,7 @@
                         let dropdownContent = '';
                         data.foods.forEach(food => {
                             if (food.name.toLowerCase().includes(query)) {
-                                dropdownContent += `<a class="dropdown-item" data-carbs="${food.carbs}" data-name="${food.name}">${food.name} - ${food.carbs}g</a>`;
+                                dropdownContent += `<a class="dropdown-item" href="#" data-carbs="${food.carbs}" data-name="${food.name}">${food.name} - ${food.carbs}g</a>`;
                             }
                         });
                         if (dropdownContent) {
@@ -50,7 +81,8 @@
                 }
             });
 
-            $(document).on('click', '.dropdown-item', function() {
+            $(document).on('click', '.dropdown-item', function(e) {
+                e.preventDefault();
                 let foodName = $(this).data('name');
                 let carbs = parseFloat($(this).data('carbs'));
                 if (!isNaN(carbs)) {
@@ -62,6 +94,17 @@
                 } else {
                     alert('Invalid carbohydrate value. Please select a valid option.');
                 }
+            });
+
+            // Handle checkbox selection
+            $(document).on('change', '.food-checkbox', function() {
+                let carbs = parseFloat($(this).data('carbs'));
+                if ($(this).is(':checked')) {
+                    selectedTotalCarbs += carbs;
+                } else {
+                    selectedTotalCarbs -= carbs;
+                }
+                $('#selected-total-carbs').text(selectedTotalCarbs);
             });
 
             // Hide dropdown when clicking outside
