@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carb Table from JSON</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Carb Table</h1>
+        <input type="text" id="food-input" class="form-control" placeholder="Enter food">
+        <div id="dropdown" class="dropdown-menu" style="display: none;"></div>
+        <table id="carbTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Food</th>
+                    <th>Carbohydrates (g)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here dynamically -->
+            </tbody>
+        </table>
+        <div>Total Carbohydrates: <span id="total-carbs">0</span> grams</div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            let totalCarbs = 0;
+
+            $('#food-input').on('input', function() {
+                let query = $(this).val().toLowerCase();
+                if (query.length > 2) {
+                    $.getJSON('/static/foods.json', function(data) {
+                        let dropdownContent = '';
+                        data.foods.forEach(food => {
+                            if (food.name.toLowerCase().includes(query)) {
+                                dropdownContent += `<a class="dropdown-item" data-carbs="${food.carbs}" data-name="${food.name}">${food.name} - ${food.carbs}g</a>`;
+                            }
+                        });
+                        if (dropdownContent) {
+                            $('#dropdown').html(dropdownContent).show();
+                        } else {
+                            $('#dropdown').hide();
+                        }
+                    });
+                } else {
+                    $('#dropdown').hide();
+                }
+            });
+
+            $(document).on('click', '.dropdown-item', function() {
+                let foodName = $(this).data('name');
+                let carbs = parseFloat($(this).data('carbs'));
+                if (!isNaN(carbs)) {
+                    $('#carbTable tbody').append(`<tr><td>${foodName}</td><td>${carbs}</td></tr>`);
+                    totalCarbs += carbs;
+                    $('#total-carbs').text(totalCarbs);
+                    $('#food-input').val('');
+                    $('#dropdown').hide();
+                } else {
+                    alert('Invalid carbohydrate value. Please select a valid option.');
+                }
+            });
+
+            // Hide dropdown when clicking outside
+            $(document).click(function(event) {
+                if (!$(event.target).closest('#food-input').length) {
+                    $('#dropdown').hide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
