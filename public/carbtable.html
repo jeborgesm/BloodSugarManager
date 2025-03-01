@@ -4,83 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carb Table</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Carb Table</h1>
-        <input type="text" id="food-input" placeholder="Enter food">
-        <div id="dropdown" class="dropdown-content"></div>
-        <table id="searchResultsTable">
-            <thead>
-                <tr>
-                    <th>Food</th>
-                    <th>Carbohydrates (g)</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Search results will be added here dynamically -->
-            </tbody>
-        </table>
-        <h2>Selected Foods</h2>
-        <table id="carbTable">
-            <thead>
+    <div class="container mt-4">
+        <h1 class="mb-4">Carb Table</h1>
+        <div class="form-group">
+            <input type="text" id="food-input" class="form-control" placeholder="Enter food">
+            <div id="dropdown" class="dropdown-menu" style="display: none;"></div>
+        </div>
+        <table id="carbTable" class="table table-striped table-bordered">
+            <thead class="thead-dark">
                 <tr>
                     <th>Food</th>
                     <th>Carbohydrates (g)</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Selected foods will be added here dynamically -->
+                <!-- Rows will be added here dynamically -->
             </tbody>
         </table>
-        <div>Total Carbohydrates: <span id="total-carbs">0</span> grams</div>
+        <div class="font-weight-bold">Total Carbohydrates: <span id="total-carbs">0</span> grams</div>
     </div>
     <script>
         $(document).ready(function () {
             let totalCarbs = 0;
 
             $('#food-input').on('input', function () {
-                let query = $(this).val();
+                let query = $(this).val().toLowerCase();
                 if (query.length > 2) {
-                    $.ajax({
-                        url: `/api/foods/search?query=${query}`,
-                        method: 'GET',
-                        success: function (response) {
-                            if (response.foods && response.foods.length > 0) {
-                                let searchResultsContent = '';
-                                response.foods.forEach(food => {
-                                    searchResultsContent += `
-                                            <tr>
-                                                <td>${food.name}</td>
-                                                <td>${food.carbohydrate}</td>
-                                                <td><button class="add-button" data-carbs="${food.carbohydrate}" data-name="${food.name}">Add</button></td>
-                                            </tr>
-                                        `;
-                                });
-                                $('#searchResultsTable tbody').html(searchResultsContent).show();
-                            } else {
-                                $('#searchResultsTable tbody').html('<tr><td colspan="3">No results found</td></tr>').show();
+                    $.getJSON('/static/foods.json', function (data) {
+                        let dropdownContent = '';
+                        data.foods.forEach(food => {
+                            if (food.name.toLowerCase().includes(query)) {
+                                dropdownContent += `<a class="dropdown-item" href="#" data-carbs="${food.carbs}" data-name="${food.name}">${food.name} - ${food.carbs}g</a>`;
                             }
-                        },
-                        error: function () {
-                            $('#searchResultsTable tbody').html('<tr><td colspan="3">Error fetching data. Please try again later.</td></tr>').show();
+                        });
+                        if (dropdownContent) {
+                            $('#dropdown').html(dropdownContent).show();
+                        } else {
+                            $('#dropdown').hide();
                         }
                     });
                 } else {
-                    $('#searchResultsTable tbody').hide();
+                    $('#dropdown').hide();
                 }
             });
 
-            $(document).on('click', '.add-button', function () {
+            $(document).on('click', '.dropdown-item', function (e) {
+                e.preventDefault();
                 let foodName = $(this).data('name');
                 let carbs = parseFloat($(this).data('carbs'));
                 if (!isNaN(carbs)) {
                     $('#carbTable tbody').append(`<tr><td>${foodName}</td><td>${carbs}</td></tr>`);
                     totalCarbs += carbs;
                     $('#total-carbs').text(totalCarbs);
+                    $('#food-input').val('');
+                    $('#dropdown').hide();
                 } else {
                     alert('Invalid carbohydrate value. Please select a valid option.');
                 }
