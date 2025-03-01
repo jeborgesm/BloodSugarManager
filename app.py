@@ -1,8 +1,12 @@
 from flask import Flask, send_from_directory, request, jsonify
 import csv
 import os
+import logging
 
 app = Flask(__name__)
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
 
 foods_file_path = os.path.join(app.static_folder, 'Foods.csv')
 
@@ -29,6 +33,7 @@ def save_foods():
                 writer.writerow([food['product_name'], food['carbohydrates_100g'], food['serving_size'], food['serving_quantity'], food['countries'], food['image_nutrition_url']])
         return jsonify({'status': 'success'}), 200
     except Exception as e:
+        app.logger.error(f"Error saving foods: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @app.route('/api/foods/search', methods=['GET'])
@@ -43,7 +48,8 @@ def search_foods():
                     results.append(row)
         return jsonify({'foods': results}), 200
     except Exception as e:
+        app.logger.error(f"Error searching foods: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5000)
