@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-foods_file_path = os.path.join(app.static_folder, 'Foods.csv')
+foods_file_path = os.path.join(app.static_folder, 'foods.csv')
 
 @app.route('/api/foods/search')
 def search_foods():

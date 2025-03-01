@@ -1,5 +1,6 @@
 import sys
 import os
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 # Add your project directory to the sys.path
 project_home = '/home/jeborgesm/BloodSugarManager'
@@ -11,3 +12,11 @@ os.environ['FLASK_APP'] = 'app.py'
 
 # Import your Flask app
 from app import app as application
+
+# Import proxy app
+from proxy import app as proxy_application
+
+# Mount the proxy app under /api
+application.wsgi_app = DispatcherMiddleware(application.wsgi_app, {
+    '/api': proxy_application.wsgi_app
+})
