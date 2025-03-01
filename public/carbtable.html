@@ -12,6 +12,19 @@
         <h1>Carb Table</h1>
         <input type="text" id="food-input" placeholder="Enter food">
         <div id="dropdown" class="dropdown-content"></div>
+        <table id="searchResultsTable">
+            <thead>
+                <tr>
+                    <th>Food</th>
+                    <th>Carbohydrates (g)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Search results will be added here dynamically -->
+            </tbody>
+        </table>
+        <h2>Selected Foods</h2>
         <table id="carbTable">
             <thead>
                 <tr>
@@ -20,58 +33,61 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Rows will be added here dynamically -->
+                <!-- Selected foods will be added here dynamically -->
             </tbody>
         </table>
         <div>Total Carbohydrates: <span id="total-carbs">0</span> grams</div>
     </div>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let totalCarbs = 0;
 
-            $('#food-input').on('input', function() {
+            $('#food-input').on('input', function () {
                 let query = $(this).val();
                 if (query.length > 2) {
                     $.ajax({
                         url: `/api/foods/search?query=${query}`,
                         method: 'GET',
-                        success: function(response) {
-                            if (response.foods && response.foods.food) {
-                                let foods = response.foods.food;
-                                let dropdownContent = '';
-                                foods.forEach(food => {
-                                    dropdownContent += `<div class="dropdown-item" data-carbs="${food.carbohydrate}" data-name="${food.name}">${food.name} - ${food.carbohydrate}g</div>`;
+                        success: function (response) {
+                            if (response.foods && response.foods.length > 0) {
+                                let searchResultsContent = '';
+                                response.foods.forEach(food => {
+                                    searchResultsContent += `
+                                            <tr>
+                                                <td>${food.name}</td>
+                                                <td>${food.carbohydrate}</td>
+                                                <td><button class="add-button" data-carbs="${food.carbohydrate}" data-name="${food.name}">Add</button></td>
+                                            </tr>
+                                        `;
                                 });
-                                $('#dropdown').html(dropdownContent).show();
+                                $('#searchResultsTable tbody').html(searchResultsContent).show();
                             } else {
-                                $('#dropdown').html('<div class="dropdown-item">No results found</div>').show();
+                                $('#searchResultsTable tbody').html('<tr><td colspan="3">No results found</td></tr>').show();
                             }
                         },
-                        error: function() {
-                            $('#dropdown').html('<div class="dropdown-item">Error fetching data. Please try again later.</div>').show();
+                        error: function () {
+                            $('#searchResultsTable tbody').html('<tr><td colspan="3">Error fetching data. Please try again later.</td></tr>').show();
                         }
                     });
                 } else {
-                    $('#dropdown').hide();
+                    $('#searchResultsTable tbody').hide();
                 }
             });
 
-            $(document).on('click', '.dropdown-item', function() {
+            $(document).on('click', '.add-button', function () {
                 let foodName = $(this).data('name');
                 let carbs = parseFloat($(this).data('carbs'));
                 if (!isNaN(carbs)) {
                     $('#carbTable tbody').append(`<tr><td>${foodName}</td><td>${carbs}</td></tr>`);
                     totalCarbs += carbs;
                     $('#total-carbs').text(totalCarbs);
-                    $('#food-input').val('');
-                    $('#dropdown').hide();
                 } else {
                     alert('Invalid carbohydrate value. Please select a valid option.');
                 }
             });
 
             // Hide dropdown when clicking outside
-            $(document).click(function(event) {
+            $(document).click(function (event) {
                 if (!$(event.target).closest('#food-input').length) {
                     $('#dropdown').hide();
                 }
