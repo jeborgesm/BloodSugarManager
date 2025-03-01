@@ -192,15 +192,17 @@
         updateTotalInsulin();
       }
 
-      function updateTotalInsulin() {
-        const carbInsulin = parseFloat(document.getElementById('carbInsulin').value);
-        const highBloodSugarInsulin = parseFloat(document.getElementById('highBloodSugarInsulin').value);
-        if (!isNaN(carbInsulin) && !isNaN(highBloodSugarInsulin)) {
-          document.getElementById('totalInsulin').innerText = (carbInsulin + highBloodSugarInsulin).toFixed(2);
-        } else {
-          document.getElementById('totalInsulin').innerText = '0';
+        function updateTotalInsulin() {
+            const carbInsulin = parseFloat(document.getElementById('carbInsulin').value);
+            const highBloodSugarInsulin = parseFloat(document.getElementById('highBloodSugarInsulin').value);
+            if (!isNaN(carbInsulin) && !isNaN(highBloodSugarInsulin)) {
+                const totalInsulin = carbInsulin + highBloodSugarInsulin;
+                const roundedTotalInsulin = Math.round(totalInsulin * 2) / 2; // Round to nearest 0.5
+                document.getElementById('totalInsulin').innerText = roundedTotalInsulin.toFixed(1);
+            } else {
+                document.getElementById('totalInsulin').innerText = '0';
+            }
         }
-      }
 
       function syncRatioInputs(event) {
         const value = event.target.value;
