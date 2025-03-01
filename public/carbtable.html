@@ -26,6 +26,11 @@
                 <!-- Search results will be added here dynamically -->
             </tbody>
         </table>
+        <nav>
+            <ul class="pagination" id="pagination">
+                <!-- Pagination controls will be added here dynamically -->
+            </ul>
+        </nav>
 
         <h2 class="mt-5">Selected Foods</h2>
         <table id="selectedFoodsTable" class="table table-striped table-bordered">
@@ -46,10 +51,17 @@
         $(document).ready(function () {
             let totalCarbs = 0;
             let selectedFoods = [];
+            let currentPage = 1;
+            const itemsPerPage = 10;
+            let searchResults = [];
 
             function renderSearchResults(results) {
                 let searchResultsContent = '';
-                results.forEach((food, index) => {
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const paginatedResults = results.slice(startIndex, endIndex);
+
+                paginatedResults.forEach((food, index) => {
                     searchResultsContent += `
                             <tr>
                                 <td>${food.product_name}</td>
@@ -60,6 +72,21 @@
                         `;
                 });
                 $('#searchResultsTable tbody').html(searchResultsContent);
+                renderPagination(results.length);
+            }
+
+            function renderPagination(totalItems) {
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+                let paginationContent = '';
+
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationContent += `
+                            <li class="page-item ${i === currentPage ? 'active' : ''}">
+                                <a class="page-link" href="#">${i}</a>
+                            </li>
+                        `;
+                }
+                $('#pagination').html(paginationContent);
             }
 
             function renderSelectedFoods() {
@@ -80,10 +107,19 @@
                 let query = $(this).val().toLowerCase();
                 if (query.length > 2) {
                     $.getJSON('/api/foods/search', { query: query }, function (data) {
-                        renderSearchResults(data);
+                        if (Array.isArray(data.foods)) {
+                            searchResults = data.foods;
+                            currentPage = 1; // Reset to first page on new search
+                            renderSearchResults(searchResults);
+                        } else {
+                            console.error('Unexpected response format:', data);
+                        }
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching data:', textStatus, errorThrown);
                     });
                 } else {
                     $('#searchResultsTable tbody').empty();
+                    $('#pagination').empty();
                 }
             });
 
@@ -98,7 +134,14 @@
                     $('#total-carbs').text(totalCarbs);
                 }
             });
+
+            $(document).on('click', '.page-link', function (e) {
+                e.preventDefault();
+                currentPage = parseInt($(this).text());
+                renderSearchResults(searchResults);
+            });
         });
     </script>
 </body>
 </html>
+
