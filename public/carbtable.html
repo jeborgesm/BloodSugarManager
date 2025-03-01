@@ -17,7 +17,8 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Food</th>
-                    <th>Carbohydrates (g)</th>
+                    <th>Carbohydrates (g per 100g)</th>
+                    <th>Serving Size</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -31,7 +32,8 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Food</th>
-                    <th>Carbohydrates (g)</th>
+                    <th>Carbohydrates (g per 100g)</th>
+                    <th>Serving Size</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,16 +45,17 @@
     <script>
         $(document).ready(function () {
             let totalCarbs = 0;
-            let foods = [];
+            let selectedFoods = [];
 
             function renderSearchResults(results) {
                 let searchResultsContent = '';
                 results.forEach((food, index) => {
                     searchResultsContent += `
                             <tr>
-                                <td>${food.name}</td>
-                                <td>${food.carbs}</td>
-                                <td><button class="btn btn-primary btn-sm add-food" data-index="${index}">Add</button></td>
+                                <td>${food.product_name}</td>
+                                <td>${food.carbohydrates_100g}</td>
+                                <td>${food.serving_size || 'N/A'}</td>
+                                <td><button class="btn btn-primary btn-sm add-food" data-name="${food.product_name}" data-carbs="${food.carbohydrates_100g}" data-serving="${food.serving_size || 'N/A'}">Add</button></td>
                             </tr>
                         `;
                 });
@@ -61,11 +64,12 @@
 
             function renderSelectedFoods() {
                 let selectedFoodsContent = '';
-                foods.forEach(food => {
+                selectedFoods.forEach(food => {
                     selectedFoodsContent += `
                             <tr>
                                 <td>${food.name}</td>
                                 <td>${food.carbs}</td>
+                                <td>${food.serving}</td>
                             </tr>
                         `;
                 });
@@ -84,11 +88,15 @@
             });
 
             $(document).on('click', '.add-food', function () {
-                let index = $(this).data('index');
-                let food = foods[index];
-                $('#selectedFoodsTable tbody').append(`<tr><td>${food.name}</td><td>${food.carbs}</td></tr>`);
-                totalCarbs += food.carbs;
-                $('#total-carbs').text(totalCarbs);
+                let foodName = $(this).data('name');
+                let carbs = parseFloat($(this).data('carbs'));
+                let serving = $(this).data('serving');
+                if (!isNaN(carbs)) {
+                    selectedFoods.push({ name: foodName, carbs: carbs, serving: serving });
+                    renderSelectedFoods();
+                    totalCarbs += carbs;
+                    $('#total-carbs').text(totalCarbs);
+                }
             });
         });
     </script>

@@ -17,8 +17,12 @@ def search_foods():
         with open(foods_file_path, 'r') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                if query in row['name'].lower():
-                    results.append({'name': row['name'], 'carbs': float(row['carbs'])})
+                if query in row['product_name'].lower():
+                    results.append({
+                        'product_name': row['product_name'],
+                        'carbohydrates_100g': float(row['carbohydrates_100g']),
+                        'serving_size': row['serving_size']
+                    })
     except Exception as e:
         return jsonify({'error': 'Failed to read foods.csv', 'message': str(e)}), 500
 

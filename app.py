@@ -10,13 +10,13 @@ foods_file_path = os.path.join(app.static_folder, 'foods.json')
 def index():
     return "Hello, World!"
 
-@app.route('/carbTable')
+@app.route('/carbtable')
 def serve_carb_table():
-    return send_from_directory('public', 'carbTable.html')
+    return send_from_directory('public', 'carbtable.html')
 
-@app.route('/carbTableFromJson')
+@app.route('/carbtablefromjson')
 def serve_carb_table_from_json():
-    return send_from_directory('public', 'carbTableFromJson.html')
+    return send_from_directory('public', 'carbtablefromjson.html')
 
 @app.route('/saveFoods', methods=['POST'])
 def save_foods():
