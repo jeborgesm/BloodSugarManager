@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function CarbTablePage() {
     const [searchResults, setSearchResults] = useState([]);
     const [selectedFoods, setSelectedFoods] = useState([]);
     const [totalCarbs, setTotalCarbs] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    useEffect(() => {
+        renderSearchResults(searchResults);
+    }, [searchResults, currentPage, renderSearchResults]);
 
     function handleSearchInput(event) {
         const query = event.target.value.toLowerCase();
@@ -13,6 +19,7 @@ function CarbTablePage() {
                 .then(data => {
                     if (Array.isArray(data.foods)) {
                         setSearchResults(data.foods);
+                        setCurrentPage(1); // Reset to first page on new search
                     } else {
                         console.error('Unexpected response format:', data);
                     }
@@ -28,6 +35,59 @@ function CarbTablePage() {
     function handleAddFood(food) {
         setSelectedFoods([...selectedFoods, food]);
         setTotalCarbs(totalCarbs + parseFloat(food.carbohydrates_100g));
+
+        const totalCarbsElement = document.getElementById('total-carbs');
+        if (totalCarbsElement) {
+            totalCarbsElement.innerText = totalCarbs + parseFloat(food.carbohydrates_100g);
+        }
+    }
+
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    function renderSearchResults(results) {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedResults = results.slice(startIndex, endIndex);
+
+        return paginatedResults.map((food, index) => (
+            <tr key={index}>
+                <td>{food.product_name}</td>
+                <td>{food.carbohydrates_100g}</td>
+                <td>{food.serving_size || 'N/A'}</td>
+                <td><button className="btn btn-primary btn-sm" onClick={() => handleAddFood(food)}>Add</button></td>
+            </tr>
+        ));
+    }
+
+    function renderPagination(totalItems) {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const paginationItems = [];
+
+        for (let i = 1; i <= totalPages; i++) {
+            paginationItems.push(
+                <li key={i} className={`page-item ${i === currentPage ? 'active' : ''}`}>
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                    <a className="page-link" href="#" onClick={(e) => handlePageClick(e, i)}>{i}</a>
+                </li>
+            );
+        }
+
+        return paginationItems;
+    }
+
+    function handlePageClick(e, pageNumber) {
+        e.preventDefault();
+        setCurrentPage(pageNumber);
+    }
+
+    function renderSelectedFoods() {
+        return selectedFoods.map((food, index) => (
+            <tr key={index}>
+                <td>{food.name}</td>
+                <td>{food.carbs}</td>
+                <td>{food.serving}</td>
+            </tr>
+        ));
     }
 
     return (
@@ -46,16 +106,15 @@ function CarbTablePage() {
                     </tr>
                 </thead>
                 <tbody>
-                    {searchResults.map((food, index) => (
-                        <tr key={index}>
-                            <td>{food.product_name}</td>
-                            <td>{food.carbohydrates_100g}</td>
-                            <td>{food.serving_size || 'N/A'}</td>
-                            <td><button className="btn btn-primary btn-sm" onClick={() => handleAddFood(food)}>Add</button></td>
-                        </tr>
-                    ))}
+                    {renderSearchResults(searchResults)}
                 </tbody>
             </table>
+            <nav>
+                <ul className="pagination" id="pagination">
+                    {renderPagination(searchResults.length)}
+                </ul>
+            </nav>
+
             <h2 className="mt-5">Selected Foods</h2>
             <table id="selectedFoodsTable" className="table table-striped table-bordered">
                 <thead className="thead-dark">
@@ -66,16 +125,10 @@ function CarbTablePage() {
                     </tr>
                 </thead>
                 <tbody>
-                    {selectedFoods.map((food, index) => (
-                        <tr key={index}>
-                            <td>{food.product_name}</td>
-                            <td>{food.carbohydrates_100g}</td>
-                            <td>{food.serving_size || 'N/A'}</td>
-                        </tr>
-                    ))}
+                    {renderSelectedFoods()}
                 </tbody>
             </table>
-            <div className="font-weight-bold">Total Carbohydrates: <span id="totalCarbs">{totalCarbs}</span> grams</div>
+            <div className="font-weight-bold">Total Carbohydrates: <span id="total-carbs">{totalCarbs}</span> grams</div>
         </div>
     );
 }
