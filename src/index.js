@@ -2,7 +2,6 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
-import App from './App';
 import IndexPage from './IndexPage';
 import CarbTablePage from './CarbTablePage';
 import CarbTableFromJsonPage from './CarbTableFromJsonPage';
