@@ -21,7 +21,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "copy-files": "copyfiles -u 1 static/Foods.csv build/static"
+    "copy-files": "copyfiles -u 1 static/Foods.csv build/static",
+    "predeploy": "npm run build",
+    "deploy": "node deploy.js"
   },
   "proxy": "http://localhost:5000",
   "eslintConfig": {
@@ -43,6 +45,7 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "gh-pages": "^6.3.0"
   }
 }
