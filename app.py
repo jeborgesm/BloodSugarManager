@@ -37,7 +37,7 @@ def save_foods():
         app.logger.error(f"Error saving foods: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
-@app.route('/api/foods/search', methods=['GET'])
+@app.route('/api/foods', methods=['GET'])
 def search_foods():
     query = request.args.get('query', '').lower()
     results = []

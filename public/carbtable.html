@@ -106,7 +106,7 @@
             $('#search-input').on('input', function () {
                 let query = $(this).val().toLowerCase();
                 if (query.length > 2) {
-                    $.getJSON('/api/foods/search', { query: query }, function (data) {
+                    $.getJSON('/api/foods', { query: query }, function (data) {
                         if (Array.isArray(data.foods)) {
                             searchResults = data.foods;
                             currentPage = 1; // Reset to first page on new search

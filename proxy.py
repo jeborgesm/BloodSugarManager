@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 foods_file_path = os.path.join(app.static_folder, 'foods.csv')
 
-@app.route('/api/foods/search')
+@app.route('/api/foods')
 def search_foods():
     query = request.args.get('query', '').lower()
     if not query:
