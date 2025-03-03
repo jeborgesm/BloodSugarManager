@@ -40,7 +40,7 @@ function CarbTablePage() {
     const handleSearchInput = useCallback((event) => {
         const query = event.target.value.toLowerCase();
         if (query.length > 2) {
-            fetch(`/api/foods/search?query=${query}`)
+            fetch(`/api/foods?query=${query}`)
                 .then(response => response.json())
                 .then(data => {
                     if (Array.isArray(data.foods)) {
