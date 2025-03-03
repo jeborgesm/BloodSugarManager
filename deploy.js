@@ -1,17 +1,13 @@
-const ghpages = require('gh-pages');
-const path = require('path');
+const { exec } = require('child_process');
 
-ghpages.publish(path.join(__dirname, 'build'), {
-  branch: 'gh-pages',
-    repo: 'https://github.com/jeborgesm/BloodSugarManager.git',
-  user: {
-    name: 'Jaime Borges',
-    email: 'jeborgesm@hotmail.com'
-  }
-}, (err) => {
-  if (err) {
-    console.error('Deployment failed:', err);
-  } else {
-    console.log('Deployment successful!');
-  }
+exec('git add . && git commit -m "Deploy to gh-page" && git push origin gh-page', (err, stdout, stderr) => {
+    if (err) {
+        console.error(`Error: ${err.message}`);
+        return;
+    }
+    if (stderr) {
+        console.error(`Stderr: ${stderr}`);
+        return;
+    }
+    console.log(`Stdout: ${stdout}`);
 });
