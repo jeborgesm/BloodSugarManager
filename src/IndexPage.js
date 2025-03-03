@@ -102,7 +102,7 @@ function IndexPage() {
                         <h4>High Blood Sugar Correction: Give 1 unit of Insulin for 50 mg/dL over 150</h4>
                     </div>
                     <div className="card-body">
-                        <h5 className="card-title"></h5>
+                        <h5 className="card-title">
                         <table id="insulinTable" className="table table-bordered">
                             <thead>
                                 <tr>
@@ -130,7 +130,8 @@ function IndexPage() {
                                 <input type="number" id="correctionInsulin" className="form-control d-inline-block w-auto" value={correctionInsulin} readOnly />
                             </h3>
                         </div>
-                    </div>
+                    </h5>
+                </div>
                 </div>
                 <br />
                 <div className="card">
