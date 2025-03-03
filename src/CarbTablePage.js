@@ -9,7 +9,7 @@ function CarbTablePage() {
 
     useEffect(() => {
         renderSearchResults(searchResults);
-    }, [searchResults, currentPage, renderSearchResults]);
+    }, [searchResults, currentPage]);
 
     function handleSearchInput(event) {
         const query = event.target.value.toLowerCase();
@@ -33,17 +33,16 @@ function CarbTablePage() {
     }
 
     function handleAddFood(food) {
-        setSelectedFoods([...selectedFoods, food]);
-        setTotalCarbs(totalCarbs + parseFloat(food.carbohydrates_100g));
-
-        const totalCarbsElement = document.getElementById('total-carbs');
-        if (totalCarbsElement) {
-            totalCarbsElement.innerText = totalCarbs + parseFloat(food.carbohydrates_100g);
-        }
+        const newFood = {
+            name: food.product_name,
+            carbs: food.carbohydrates_100g,
+            serving: food.serving_size || 'N/A'
+        };
+        const newTotalCarbs = totalCarbs + parseFloat(food.carbohydrates_100g);
+        setSelectedFoods([...selectedFoods, newFood]);
+        setTotalCarbs(newTotalCarbs);
     }
 
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     function renderSearchResults(results) {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
@@ -66,7 +65,6 @@ function CarbTablePage() {
         for (let i = 1; i <= totalPages; i++) {
             paginationItems.push(
                 <li key={i} className={`page-item ${i === currentPage ? 'active' : ''}`}>
-                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a className="page-link" href="#" onClick={(e) => handlePageClick(e, i)}>{i}</a>
                 </li>
             );

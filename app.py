@@ -3,12 +3,13 @@ import csv
 import os
 import logging
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='public')
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
-foods_file_path = os.path.join(app.static_folder, 'Foods.csv')
+# Ensure the correct path to Foods.csv
+foods_file_path = os.path.join(app.static_folder, 'static', 'Foods.csv')
 
 @app.route('/')
 def index():
