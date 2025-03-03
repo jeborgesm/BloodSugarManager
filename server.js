@@ -1,10 +1,13 @@
 const express = require('express');
 const fs = require('fs');
 const csv = require('csv-parser');
+const path = require('path');
 const app = express();
-const port = 3001;
+const PORT = process.env.PORT || 5000;
 
-app.use(express.static('public'));
+/*app.use(express.static('public'));*/
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'build')))npm start
 
 app.get('/api/foods/search', (req, res) => {
     const query = req.query.query.toLowerCase();
@@ -33,6 +36,12 @@ app.get('/api/foods/search', (req, res) => {
         });
 });
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/build/index.html'));
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
