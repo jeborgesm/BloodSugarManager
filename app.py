@@ -3,7 +3,7 @@ import csv
 import os
 import logging
 
-app = Flask(__name__, static_folder='public')
+app = Flask(__name__, static_folder='build')
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -13,15 +13,15 @@ foods_file_path = os.path.join(app.static_folder, 'static', 'Foods.csv')
 
 @app.route('/')
 def index():
-    return send_from_directory('public', 'index.html')
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/carbtable')
 def serve_carb_table():
-    return send_from_directory('public', 'carbtable.html')
+    return send_from_directory(app.static_folder, 'carbtable.html')
 
 @app.route('/carbtablefromjson')
 def serve_carb_table_from_json():
-    return send_from_directory('public', 'carbtablefromjson.html')
+    return send_from_directory(app.static_folder, 'carbtablefromjson.html')
 
 @app.route('/saveFoods', methods=['POST'])
 def save_foods():
@@ -39,7 +39,7 @@ def save_foods():
 
 @app.route('/api/foods', methods=['GET'])
 def search_foods():
-    query = request.args.get('query', '').lower()
+    query = request.args.get('query', '').toLowerCase()
     results = []
     try:
         with open(foods_file_path, 'r', encoding='utf-8') as f:
