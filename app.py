@@ -39,7 +39,7 @@ def save_foods():
 
 @app.route('/api/foods', methods=['GET'])
 def search_foods():
-    query = request.args.get('query', '').toLowerCase()
+    query = request.args.get('query', '').lower()
     results = []
     try:
         with open(foods_file_path, 'r', encoding='utf-8') as f:
