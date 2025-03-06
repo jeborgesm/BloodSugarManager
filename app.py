@@ -43,6 +43,7 @@ def save_foods():
 @app.route('/api/foods', methods=['GET'])
 def search_foods():
     query = request.args.get('query', '').lower()
+    app.logger.debug(f"aSearching for: {query}")  # Log the search query
     results = []
     try:
         app.logger.debug(f"Searching for: {query}")  # Log the search query
