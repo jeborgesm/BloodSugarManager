@@ -1,9 +1,11 @@
 from flask import Flask, send_from_directory, request, jsonify
+from flask_cors import CORS
 import csv
 import os
 import logging
 
 app = Flask(__name__, static_folder='build')
+CORS(app)
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -44,9 +46,12 @@ def search_foods():
     try:
         with open(foods_file_path, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
-            for row in reader:
+            foods = list(reader)
+            app.logger.debug(f"Foods data: {foods}")  # Log the contents of Foods.csv
+            for row in foods:
                 if query in row['product_name'].lower():
                     results.append(row)
+            app.logger.debug(f"Search results: {results}")  # Log the search results
         return jsonify({'foods': results}), 200
     except Exception as e:
         app.logger.error(f"Error searching foods: {e}")

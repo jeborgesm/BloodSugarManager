@@ -40,9 +40,11 @@ function CarbTablePage() {
     const handleSearchInput = useCallback((event) => {
         const query = event.target.value.toLowerCase();
         if (query.length > 2) {
+            console.log(`Searching for: ${query}`); // Add this line to log the search query
             fetch(`/api/foods?query=${query}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log('API Response:', data); // Add this line to log the response
                     if (Array.isArray(data.foods)) {
                         setSearchResults(data.foods);
                         setCurrentPage(1); // Reset to first page on new search

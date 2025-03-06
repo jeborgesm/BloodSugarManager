@@ -19,8 +19,17 @@
       "dest": "/app.py"
     },
     {
+      "src": "/carbtable",
+      "dest": "/carbtable.html"
+    },
+    {
+      "src": "/carbtablefromjson",
+      "dest": "/carbtablefromjson.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
   ]
 }
+
