@@ -19,7 +19,7 @@
     "start": "concurrently \"npm run start-react\" \"npm run start-python\"",
     "start-react": "react-scripts start",
     "start-python": "python app.py",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npm run copy-files",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "copy-files": "copyfiles -u 1 static/Foods.csv build/static"

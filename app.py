@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 # Ensure the correct path to Foods.csv
 foods_file_path = os.path.join(app.static_folder, 'static', 'Foods.csv')
+app.logger.debug(f"Foods file path: {foods_file_path}")  # Log the file path
 
 @app.route('/')
 def index():
@@ -44,6 +45,7 @@ def search_foods():
     query = request.args.get('query', '').lower()
     results = []
     try:
+        app.logger.debug(f"Searching for: {query}")  # Log the search query
         with open(foods_file_path, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
             foods = list(reader)
