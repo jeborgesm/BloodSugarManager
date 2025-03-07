@@ -49,7 +49,7 @@ function CarbTablePage() {
                     if (Array.isArray(data.foods)) {
                         setSearchResults(data.foods);
                         setCurrentPage(1); // Reset to first page on new search
-                        setPaginationRange([1, 5]); // Reset pagination range
+                        setPaginationRange([1, 10]); // Reset pagination range
                         console.log('Search Results:', data.foods); // Log the search results
                     } else {
                         console.error('Unexpected response format:', data);
@@ -70,12 +70,12 @@ function CarbTablePage() {
 
     const handleNextClick = useCallback((e) => {
         e.preventDefault();
-        setPaginationRange([paginationRange[0] + 5, paginationRange[1] + 5]);
+        setPaginationRange([paginationRange[0] + 10, paginationRange[1] + 10]);
     }, [paginationRange]);
 
     const handlePrevClick = useCallback((e) => {
         e.preventDefault();
-        setPaginationRange([paginationRange[0] - 5, paginationRange[1] - 5]);
+        setPaginationRange([paginationRange[0] - 10, paginationRange[1] - 10]);
     }, [paginationRange]);
 
     const renderPagination = useCallback((totalItems) => {

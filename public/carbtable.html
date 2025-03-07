@@ -128,7 +128,7 @@
                         if (Array.isArray(data.foods)) {
                             searchResults = data.foods;
                             currentPage = 1; // Reset to first page on new search
-                            paginationRange = [1, 5]; // Reset pagination range
+                            paginationRange = [1, 10]; // Reset pagination range
                             renderSearchResults(searchResults);
                         } else {
                             console.error('Unexpected response format:', data);
@@ -165,13 +165,13 @@
 
             $(document).on('click', '#next-page', function (e) {
                 e.preventDefault();
-                paginationRange = [paginationRange[0] + 5, paginationRange[1] + 5];
+                paginationRange = [paginationRange[0] + 10, paginationRange[1] + 10];
                 renderPagination(searchResults.length);
             });
 
             $(document).on('click', '#prev-page', function (e) {
                 e.preventDefault();
-                paginationRange = [paginationRange[0] - 5, paginationRange[1] - 5];
+                paginationRange = [paginationRange[0] - 10, paginationRange[1] - 10];
                 renderPagination(searchResults.length);
             });
         });
