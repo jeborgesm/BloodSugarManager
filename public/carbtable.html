@@ -6,6 +6,7 @@
     <title>Carb Table</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container mt-4">
@@ -32,20 +33,22 @@
             </ul>
         </nav>
 
-        <h2 class="mt-5">Selected Foods</h2>
-        <table id="selectedFoodsTable" class="table table-striped table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Food</th>
-                    <th>Carbohydrates (g per 100g)</th>
-                    <th>Serving Size</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Selected foods will be added here dynamically -->
-            </tbody>
-        </table>
-        <div class="font-weight-bold">Total Carbohydrates: <span id="total-carbs">0</span> grams</div>
+        <h2 class="mt-5">Selected Foods <button class="btn btn-link" data-toggle="collapse" data-target="#selectedFoodsSection" aria-expanded="false" aria-controls="selectedFoodsSection">▼</button></h2>
+        <div id="selectedFoodsSection" class="collapse">
+            <table id="selectedFoodsTable" class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Food</th>
+                        <th>Carbohydrates (g per 100g)</th>
+                        <th>Serving Size</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Selected foods will be added here dynamically -->
+                </tbody>
+            </table>
+            <div class="font-weight-bold">Total Carbohydrates: <span id="total-carbs">0</span> grams</div>
+        </div>
 
         <h1 class="mb-4">Blood Sugar Manager</h1>
         <table id="carbTable" class="table table-bordered">
@@ -84,38 +87,40 @@
             <br />
             <div class="card">
                 <div class="card-header">
-                    <h4>High Blood Sugar Correction: Give 1 unit of Insulin for 50 mg/dL over 150</h4>
+                    <h4>High Blood Sugar Correction: Give 1 unit of Insulin for 50 mg/dL over 150 <button class="btn btn-link" data-toggle="collapse" data-target="#insulinSection" aria-expanded="false" aria-controls="insulinSection">▼</button></h4>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <table id="insulinTable" class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Blood Sugar (mg/dL)</th>
-                                    <th>Insulin (units)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>150 - 199</td><td>1</td></tr>
-                                <tr><td>200 - 249</td><td>2</td></tr>
-                                <tr><td>250 - 299</td><td>3</td></tr>
-                                <tr><td>300 - 349</td><td>4</td></tr>
-                                <tr><td>350 - 399</td><td>5</td></tr>
-                                <tr><td>400 - 449</td><td>6</td></tr>
-                                <tr><td>450 - 499</td><td>7</td></tr>
-                                <tr><td>500 - 549</td><td>8</td></tr>
-                                <tr><td>550 - 599</td><td>9</td></tr>
-                            </tbody>
-                        </table>
-                        <div>
-                            <h3>
-                                <label for="currentBloodSugar">Current Blood Sugar</label>
-                                <input type="number" id="currentBloodSugar" class="form-control d-inline-block w-auto">
-                                <label for="correctionInsulin">Units of Insulin for correction</label>
-                                <input type="number" id="correctionInsulin" class="form-control d-inline-block w-auto" readonly>
-                            </h3>
-                        </div>
-                    </h5>
+                <div id="insulinSection" class="collapse">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <table id="insulinTable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Blood Sugar (mg/dL)</th>
+                                        <th>Insulin (units)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>150 - 199</td><td>1</td></tr>
+                                    <tr><td>200 - 249</td><td>2</td></tr>
+                                    <tr><td>250 - 299</td><td>3</td></tr>
+                                    <tr><td>300 - 349</td><td>4</td></tr>
+                                    <tr><td>350 - 399</td><td>5</td></tr>
+                                    <tr><td>400 - 449</td><td>6</td></tr>
+                                    <tr><td>450 - 499</td><td>7</td></tr>
+                                    <tr><td>500 - 549</td><td>8</td></tr>
+                                    <tr><td>550 - 599</td><td>9</td></tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <h3>
+                                    <label for="currentBloodSugar">Current Blood Sugar</label>
+                                    <input type="number" id="currentBloodSugar" class="form-control d-inline-block w-auto">
+                                    <label for="correctionInsulin">Units of Insulin for correction</label>
+                                    <input type="number" id="correctionInsulin" class="form-control d-inline-block w-auto" readonly>
+                                </h3>
+                            </div>
+                        </h5>
+                    </div>
                 </div>
             </div>
             <br />
