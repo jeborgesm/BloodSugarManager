@@ -54,6 +54,7 @@
             let currentPage = 1;
             const itemsPerPage = 10;
             let searchResults = [];
+            let paginationRange = [1, 5]; // Initial range for pagination items
 
             function renderSearchResults(results) {
                 let searchResultsContent = '';
@@ -79,13 +80,30 @@
                 const totalPages = Math.ceil(totalItems / itemsPerPage);
                 let paginationContent = '';
 
-                for (let i = 1; i <= totalPages; i++) {
+                if (paginationRange[0] > 1) {
+                    paginationContent += `
+                            <li class="page-item">
+                                <a class="page-link" href="#" id="prev-page">Previous</a>
+                            </li>
+                        `;
+                }
+
+                for (let i = paginationRange[0]; i <= paginationRange[1] && i <= totalPages; i++) {
                     paginationContent += `
                             <li class="page-item ${i === currentPage ? 'active' : ''}">
                                 <a class="page-link" href="#">${i}</a>
                             </li>
                         `;
                 }
+
+                if (paginationRange[1] < totalPages) {
+                    paginationContent += `
+                            <li class="page-item">
+                                <a class="page-link" href="#" id="next-page">Next</a>
+                            </li>
+                        `;
+                }
+
                 $('#pagination').html(paginationContent);
             }
 
@@ -110,6 +128,7 @@
                         if (Array.isArray(data.foods)) {
                             searchResults = data.foods;
                             currentPage = 1; // Reset to first page on new search
+                            paginationRange = [1, 5]; // Reset pagination range
                             renderSearchResults(searchResults);
                         } else {
                             console.error('Unexpected response format:', data);
@@ -137,8 +156,23 @@
 
             $(document).on('click', '.page-link', function (e) {
                 e.preventDefault();
-                currentPage = parseInt($(this).text());
-                renderSearchResults(searchResults);
+                const pageNumber = parseInt($(this).text());
+                if (!isNaN(pageNumber)) {
+                    currentPage = pageNumber;
+                    renderSearchResults(searchResults);
+                }
+            });
+
+            $(document).on('click', '#next-page', function (e) {
+                e.preventDefault();
+                paginationRange = [paginationRange[0] + 5, paginationRange[1] + 5];
+                renderPagination(searchResults.length);
+            });
+
+            $(document).on('click', '#prev-page', function (e) {
+                e.preventDefault();
+                paginationRange = [paginationRange[0] - 5, paginationRange[1] - 5];
+                renderPagination(searchResults.length);
             });
         });
     </script>
