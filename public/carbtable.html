@@ -146,7 +146,7 @@
             let paginationRange = [1, 10]; // Initial range for pagination items
 
             let carbInputs = [{ food: '', carbs: 0 }];
-            let ratio = 20;
+            let ratio = 15;
             let currentBloodSugar = 0;
             let correctionInsulin = 0;
             let highBloodSugarInsulin = 0;
@@ -275,6 +275,11 @@
                     renderSelectedFoods();
                     totalCarbs += carbs;
                     $('#total-carbs').text(totalCarbs);
+
+                    // Add to carb table
+                    carbInputs.push({ food: foodName, carbs: carbs });
+                    renderCarbInputs();
+                    updateInsulinCalculations();
                 }
             });
 
