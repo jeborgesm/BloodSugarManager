@@ -5,7 +5,7 @@ function CarbTablePage() {
     const [selectedFoods, setSelectedFoods] = useState([]);
     const [totalCarbs, setTotalCarbs] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const [paginationRange, setPaginationRange] = useState([1, 5]); // Initial range for pagination items
+    const [paginationRange, setPaginationRange] = useState([1, 10]); // Initial range for pagination items
     const itemsPerPage = 10;
 
     const handleAddFood = useCallback((food) => {
