@@ -89,6 +89,14 @@
                 <div class="card-header">
                     <h4>High Blood Sugar Correction: Give 1 unit of Insulin for 50 mg/dL over 150 <button class="btn btn-link" data-toggle="collapse" data-target="#insulinSection" aria-expanded="false" aria-controls="insulinSection">▼</button></h4>
                 </div>
+                <div>
+                    <h3>
+                        <label for="currentBloodSugar">Current Blood Sugar</label>
+                        <input type="number" id="currentBloodSugar" class="form-control d-inline-block w-auto">
+                        <label for="correctionInsulin">Units of Insulin for correction</label>
+                        <input type="number" id="correctionInsulin" class="form-control d-inline-block w-auto" readonly>
+                    </h3>
+                </div>
                 <div id="insulinSection" class="collapse">
                     <div class="card-body">
                         <h5 class="card-title">
@@ -111,14 +119,6 @@
                                     <tr><td>550 - 599</td><td>9</td></tr>
                                 </tbody>
                             </table>
-                            <div>
-                                <h3>
-                                    <label for="currentBloodSugar">Current Blood Sugar</label>
-                                    <input type="number" id="currentBloodSugar" class="form-control d-inline-block w-auto">
-                                    <label for="correctionInsulin">Units of Insulin for correction</label>
-                                    <input type="number" id="correctionInsulin" class="form-control d-inline-block w-auto" readonly>
-                                </h3>
-                            </div>
                         </h5>
                     </div>
                 </div>
