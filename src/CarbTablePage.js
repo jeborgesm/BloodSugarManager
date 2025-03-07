@@ -5,6 +5,7 @@ function CarbTablePage() {
     const [selectedFoods, setSelectedFoods] = useState([]);
     const [totalCarbs, setTotalCarbs] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [paginationRange, setPaginationRange] = useState([1, 5]); // Initial range for pagination items
     const itemsPerPage = 10;
 
     const handleAddFood = useCallback((food) => {
@@ -48,6 +49,7 @@ function CarbTablePage() {
                     if (Array.isArray(data.foods)) {
                         setSearchResults(data.foods);
                         setCurrentPage(1); // Reset to first page on new search
+                        setPaginationRange([1, 5]); // Reset pagination range
                         console.log('Search Results:', data.foods); // Log the search results
                     } else {
                         console.error('Unexpected response format:', data);
@@ -66,11 +68,29 @@ function CarbTablePage() {
         setCurrentPage(pageNumber);
     }, []);
 
+    const handleNextClick = useCallback((e) => {
+        e.preventDefault();
+        setPaginationRange([paginationRange[0] + 5, paginationRange[1] + 5]);
+    }, [paginationRange]);
+
+    const handlePrevClick = useCallback((e) => {
+        e.preventDefault();
+        setPaginationRange([paginationRange[0] - 5, paginationRange[1] - 5]);
+    }, [paginationRange]);
+
     const renderPagination = useCallback((totalItems) => {
         const totalPages = Math.ceil(totalItems / itemsPerPage);
         const paginationItems = [];
 
-        for (let i = 1; i <= totalPages; i++) {
+        if (paginationRange[0] > 1) {
+            paginationItems.push(
+                <li key="prev" className="page-item">
+                    <button className="page-link" onClick={handlePrevClick}>Previous</button>
+                </li>
+            );
+        }
+
+        for (let i = paginationRange[0]; i <= paginationRange[1] && i <= totalPages; i++) {
             paginationItems.push(
                 <li key={i} className={`page-item ${i === currentPage ? 'active' : ''}`}>
                     <button className="page-link" onClick={(e) => handlePageClick(e, i)}>{i}</button>
@@ -78,8 +98,16 @@ function CarbTablePage() {
             );
         }
 
+        if (paginationRange[1] < totalPages) {
+            paginationItems.push(
+                <li key="next" className="page-item">
+                    <button className="page-link" onClick={handleNextClick}>Next</button>
+                </li>
+            );
+        }
+
         return paginationItems;
-    }, [currentPage, itemsPerPage, handlePageClick]);
+    }, [currentPage, itemsPerPage, handlePageClick, handleNextClick, handlePrevClick, paginationRange]);
 
     const renderSelectedFoods = useCallback(() => {
         return selectedFoods.map((food, index) => (
