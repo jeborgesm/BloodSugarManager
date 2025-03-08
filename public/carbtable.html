@@ -327,6 +327,7 @@
             $('#addRow').on('click', function () {
                 carbInputs.push({ food: '', carbs: 0 });
                 renderCarbInputs();
+                updateTotalCarbs();
             });
 
             $('#ratioInput, #ratioInput2').on('input', function () {
