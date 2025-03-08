@@ -142,6 +142,8 @@
         </div>
     </div>
     <script>
+        let carbInputs = [{ food: '', carbs: 0 }];
+
         function handleCarbInputChange(index, field, value) {
             carbInputs[index][field] = value;
             updateTotalCarbs();
@@ -156,7 +158,6 @@
             let searchResults = [];
             let paginationRange = [1, 10]; // Initial range for pagination items
 
-            let carbInputs = [{ food: '', carbs: 0 }];
             let ratio = 15;
             let currentBloodSugar = 0;
             let correctionInsulin = 0;
@@ -170,13 +171,13 @@
 
                 paginatedResults.forEach((food, index) => {
                     searchResultsContent += `
-                                <tr>
-                                    <td>${food.product_name}</td>
-                                    <td>${food.carbohydrates_100g}</td>
-                                    <td>${food.serving_size || 'N/A'}</td>
-                                    <td><button class="btn btn-primary btn-sm add-food" data-name="${food.product_name}" data-carbs="${food.carbohydrates_100g}" data-serving="${food.serving_size || 'N/A'}">Add</button></td>
-                                </tr>
-                            `;
+                                    <tr>
+                                        <td>${food.product_name}</td>
+                                        <td>${food.carbohydrates_100g}</td>
+                                        <td>${food.serving_size || 'N/A'}</td>
+                                        <td><button class="btn btn-primary btn-sm add-food" data-name="${food.product_name}" data-carbs="${food.carbohydrates_100g}" data-serving="${food.serving_size || 'N/A'}">Add</button></td>
+                                    </tr>
+                                `;
                 });
                 $('#searchResultsTable tbody').html(searchResultsContent);
                 renderPagination(results.length);
@@ -188,26 +189,26 @@
 
                 if (paginationRange[0] > 1) {
                     paginationContent += `
-                                <li class="page-item">
-                                    <a class="page-link" href="#" id="prev-page">Previous</a>
-                                </li>
-                            `;
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" id="prev-page">Previous</a>
+                                    </li>
+                                `;
                 }
 
                 for (let i = paginationRange[0]; i <= paginationRange[1] && i <= totalPages; i++) {
                     paginationContent += `
-                                <li class="page-item ${i === currentPage ? 'active' : ''}">
-                                    <a class="page-link" href="#">${i}</a>
-                                </li>
-                            `;
+                                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                                        <a class="page-link" href="#">${i}</a>
+                                    </li>
+                                `;
                 }
 
                 if (paginationRange[1] < totalPages) {
                     paginationContent += `
-                                <li class="page-item">
-                                    <a class="page-link" href="#" id="next-page">Next</a>
-                                </li>
-                            `;
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" id="next-page">Next</a>
+                                    </li>
+                                `;
                 }
 
                 $('#pagination').html(paginationContent);
@@ -217,12 +218,12 @@
                 let selectedFoodsContent = '';
                 selectedFoods.forEach(food => {
                     selectedFoodsContent += `
-                                <tr>
-                                    <td>${food.name}</td>
-                                    <td>${food.carbs}</td>
-                                    <td>${food.serving}</td>
-                                </tr>
-                            `;
+                                    <tr>
+                                        <td>${food.name}</td>
+                                        <td>${food.carbs}</td>
+                                        <td>${food.serving}</td>
+                                    </tr>
+                                `;
                 });
                 $('#selectedFoodsTable tbody').html(selectedFoodsContent);
             }
@@ -231,11 +232,11 @@
                 let carbInputsContent = '';
                 carbInputs.forEach((input, index) => {
                     carbInputsContent += `
-                                <tr>
-                                    <td><input type="text" placeholder="Enter food" class="form-control" value="${input.food}" data-index="${index}" data-field="food" onblur="handleCarbInputChange(${index}, 'food', this.value)"></td>
-                                    <td><input type="number" class="form-control carb-input" placeholder="Enter grams" value="${input.carbs}" data-index="${index}" data-field="carbs" oninput="handleCarbInputChange(${index}, 'carbs', this.value)"></td>
-                                </tr>
-                            `;
+                                    <tr>
+                                        <td><input type="text" placeholder="Enter food" class="form-control" value="${input.food}" data-index="${index}" data-field="food" onblur="handleCarbInputChange(${index}, 'food', this.value)"></td>
+                                        <td><input type="number" class="form-control carb-input" placeholder="Enter grams" value="${input.carbs}" data-index="${index}" data-field="carbs" oninput="handleCarbInputChange(${index}, 'carbs', this.value)"></td>
+                                    </tr>
+                                `;
                 });
                 $('#carbTable tbody').html(carbInputsContent);
                 updateTotalCarbs();
