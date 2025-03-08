@@ -256,8 +256,13 @@
 
             function handleCarbInputChange(index, field, value) {
                 carbInputs[index][field] = value;
-                renderCarbInputs();
+                updateTotalCarbs();
                 updateInsulinCalculations();
+            }
+
+            function updateTotalCarbs() {
+                const totalCarbs = totalCarbsFromInputs();
+                $('#totalCarbs').text(totalCarbs);
             }
 
             $('#search-input').on('input', function () {
