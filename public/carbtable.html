@@ -50,6 +50,30 @@
             <div class="font-weight-bold">Total Carbohydrates: <span id="total-carbs">0</span> grams</div>
         </div>
 
+        <div id="root">
+            <table id="carbTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Foods Eaten</th>
+                        <th>Grams of Carbohydrate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" placeholder="Enter food" class="form-control"></td>
+                        <td><input type="number" class="form-control carb-input" placeholder="Enter grams"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total</td>
+                        <td id="totalCarbs">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button onclick="addRow()" class="btn btn-primary">Add Row</button>
+        </div>
+
         <h1 class="mb-4">Blood Sugar Manager</h1>
         <table id="carbTable" class="table table-bordered">
             <thead>
@@ -142,6 +166,36 @@
         </div>
     </div>
     <script>
+        function addRow() {
+            const table = document.getElementById('carbTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            const newCell1 = newRow.insertCell(0);
+            const newCell2 = newRow.insertCell(1);
+            newCell1.innerHTML = '<input type="text" placeholder="Enter food" class="form-control">';
+            newCell2.innerHTML = '<input type="number" class="form-control carb-input" placeholder="Enter grams">';
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const inputs = document.getElementsByClassName('carb-input');
+            let total = 0;
+            for (let i = 0; i < inputs.length; i++) {
+                const val = parseFloat(inputs[i].value);
+                if (!isNaN(val)) {
+                    total += val;
+                }
+            }
+            const totalCarbsElement = document.getElementById('totalCarbs');
+            if (totalCarbsElement) {
+                totalCarbsElement.innerText = total;
+            }
+            const totalCarbInputElement = document.getElementById('totalCarbInput');
+            if (totalCarbInputElement) {
+                totalCarbInputElement.value = total;
+            }
+            //updateInsulinUnits();
+        }
+
         $(document).ready(function () {
             let totalCarbs = 0;
             let selectedFoods = [];
