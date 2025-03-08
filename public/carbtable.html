@@ -227,7 +227,7 @@
                     carbInputsContent += `
                             <tr>
                                 <td><input type="text" placeholder="Enter food" class="form-control" value="${input.food}" data-index="${index}" data-field="food" onblur="handleCarbInputChange(${index}, 'food', this.value)"></td>
-                                <td><input type="number" class="form-control carb-input" placeholder="Enter grams" value="${input.carbs}" data-index="${index}" data-field="carbs" onblur="handleCarbInputChange(${index}, 'carbs', this.value)"></td>
+                                <td><input type="number" class="form-control carb-input" placeholder="Enter grams" value="${input.carbs}" data-index="${index}" data-field="carbs" oninput="handleCarbInputChange(${index}, 'carbs', this.value)"></td>
                             </tr>
                         `;
                 });
