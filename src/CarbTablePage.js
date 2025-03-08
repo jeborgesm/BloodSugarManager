@@ -9,7 +9,7 @@ function CombinedPage() {
     const itemsPerPage = 10;
 
     const [carbInputs, setCarbInputs] = useState([{ food: '', carbs: 0 }]);
-    const [ratio, setRatio] = useState(20);
+    const [ratio, setRatio] = useState(15);
     const [currentBloodSugar, setCurrentBloodSugar] = useState(0);
     const [correctionInsulin, setCorrectionInsulin] = useState(0);
     const [highBloodSugarInsulin, setHighBloodSugarInsulin] = useState(0);
@@ -22,9 +22,13 @@ function CombinedPage() {
         return (totalCarbsFromInputs / ratio).toFixed(2);
     }, [totalCarbsFromInputs, ratio]);
 
+    const roundToNearestHalf = (num) => {
+        return Math.round(num * 2) / 2;
+    };
+
     const totalInsulin = useMemo(() => {
         const total = parseFloat(carbInsulin) + parseFloat(highBloodSugarInsulin);
-        return (Math.round(total * 2) / 2).toFixed(1);
+        return roundToNearestHalf(total).toFixed(1);
     }, [carbInsulin, highBloodSugarInsulin]);
 
     const updateCorrectionInsulin = useCallback((currentBloodSugar) => {
@@ -47,10 +51,12 @@ function CombinedPage() {
     }, [carbInputs]);
 
     const handleCarbInputChange = useCallback((index, field, value) => {
-        const newCarbInputs = [...carbInputs];
-        newCarbInputs[index][field] = value;
-        setCarbInputs(newCarbInputs);
-    }, [carbInputs]);
+        setCarbInputs((prevCarbInputs) => {
+            const newCarbInputs = [...prevCarbInputs];
+            newCarbInputs[index][field] = value;
+            return newCarbInputs;
+        });
+    }, []);
 
     const handleRatioChange = useCallback((e) => {
         setRatio(e.target.value);
@@ -221,8 +227,8 @@ function CombinedPage() {
                 <tbody>
                     {carbInputs.map((input, index) => (
                         <tr key={index}>
-                            <td><input type="text" placeholder="Enter food" className="form-control" value={input.food} onChange={(e) => handleCarbInputChange(index, 'food', e.target.value)} /></td>
-                            <td><input type="number" className="form-control carb-input" placeholder="Enter grams" value={input.carbs} onChange={(e) => handleCarbInputChange(index, 'carbs', e.target.value)} /></td>
+                            <td><input type="text" placeholder="Enter food" className="form-control" value={input.food} data-index={index} data-field="food" onChange={(e) => handleCarbInputChange(index, 'food', e.target.value)} /></td>
+                            <td><input type="number" className="form-control carb-input" placeholder="Enter grams" value={input.carbs} data-index={index} data-field="carbs" onChange={(e) => handleCarbInputChange(index, 'carbs', e.target.value)} /></td>
                         </tr>
                     ))}
                 </tbody>
@@ -242,11 +248,11 @@ function CombinedPage() {
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">1 unit of rapid-acting insulin for every <input type="number" id="ratioInput" value={ratio} className="form-control d-inline-block w-auto" onChange={handleRatioChange} /> grams of carbohydrates</h5>
-                        <p>
+                        <div>
                             Total grams of carbohydrate: <input type="number" id="totalCarbInput" value={totalCarbsFromInputs} className="form-control d-inline-block w-auto" readOnly /> g /
                             <input type="number" id="ratioInput2" value={ratio} className="form-control d-inline-block w-auto" onChange={handleRatioChange} /> =
                             <h1><span id="insulinUnits">{carbInsulin}</span></h1> units rapid-acting insulin for meal.
-                        </p>
+                        </div>
                     </div>
                 </div>
                 <br />

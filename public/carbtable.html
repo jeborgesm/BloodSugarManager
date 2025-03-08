@@ -239,10 +239,14 @@
                 return carbInputs.reduce((sum, input) => sum + parseFloat(input.carbs || 0), 0);
             }
 
+            function roundToNearestHalf(num) {
+                return Math.round(num * 2) / 2;
+            }
+
             function updateInsulinCalculations() {
                 const totalCarbs = totalCarbsFromInputs();
                 const carbInsulin = (totalCarbs / ratio).toFixed(2);
-                const totalInsulin = (parseFloat(carbInsulin) + parseFloat(highBloodSugarInsulin)).toFixed(1);
+                const totalInsulin = roundToNearestHalf(parseFloat(carbInsulin) + parseFloat(highBloodSugarInsulin)).toFixed(1);
 
                 $('#totalCarbInput').val(totalCarbs);
                 $('#insulinUnits').text(carbInsulin);
