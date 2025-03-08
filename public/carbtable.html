@@ -50,30 +50,6 @@
             <div class="font-weight-bold">Total Carbohydrates: <span id="total-carbs">0</span> grams</div>
         </div>
 
-        <div id="root">
-            <table id="carbTable" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Foods Eaten</th>
-                        <th>Grams of Carbohydrate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="text" placeholder="Enter food" class="form-control"></td>
-                        <td><input type="number" class="form-control carb-input" placeholder="Enter grams"></td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>Total</td>
-                        <td id="totalCarbs">0</td>
-                    </tr>
-                </tfoot>
-            </table>
-            <button onclick="addRow()" class="btn btn-primary">Add Row</button>
-        </div>
-
         <h1 class="mb-4">Blood Sugar Manager</h1>
         <table id="carbTable" class="table table-bordered">
             <thead>
@@ -166,36 +142,6 @@
         </div>
     </div>
     <script>
-        function addRow() {
-            const table = document.getElementById('carbTable').getElementsByTagName('tbody')[0];
-            const newRow = table.insertRow();
-            const newCell1 = newRow.insertCell(0);
-            const newCell2 = newRow.insertCell(1);
-            newCell1.innerHTML = '<input type="text" placeholder="Enter food" class="form-control">';
-            newCell2.innerHTML = '<input type="number" class="form-control carb-input" placeholder="Enter grams">';
-            updateTotal();
-        }
-
-        function updateTotal() {
-            const inputs = document.getElementsByClassName('carb-input');
-            let total = 0;
-            for (let i = 0; i < inputs.length; i++) {
-                const val = parseFloat(inputs[i].value);
-                if (!isNaN(val)) {
-                    total += val;
-                }
-            }
-            const totalCarbsElement = document.getElementById('totalCarbs');
-            if (totalCarbsElement) {
-                totalCarbsElement.innerText = total;
-            }
-            const totalCarbInputElement = document.getElementById('totalCarbInput');
-            if (totalCarbInputElement) {
-                totalCarbInputElement.value = total;
-            }
-            //updateInsulinUnits();
-        }
-
         $(document).ready(function () {
             let totalCarbs = 0;
             let selectedFoods = [];
@@ -218,13 +164,13 @@
 
                 paginatedResults.forEach((food, index) => {
                     searchResultsContent += `
-                            <tr>
-                                <td>${food.product_name}</td>
-                                <td>${food.carbohydrates_100g}</td>
-                                <td>${food.serving_size || 'N/A'}</td>
-                                <td><button class="btn btn-primary btn-sm add-food" data-name="${food.product_name}" data-carbs="${food.carbohydrates_100g}" data-serving="${food.serving_size || 'N/A'}">Add</button></td>
-                            </tr>
-                        `;
+                                <tr>
+                                    <td>${food.product_name}</td>
+                                    <td>${food.carbohydrates_100g}</td>
+                                    <td>${food.serving_size || 'N/A'}</td>
+                                    <td><button class="btn btn-primary btn-sm add-food" data-name="${food.product_name}" data-carbs="${food.carbohydrates_100g}" data-serving="${food.serving_size || 'N/A'}">Add</button></td>
+                                </tr>
+                            `;
                 });
                 $('#searchResultsTable tbody').html(searchResultsContent);
                 renderPagination(results.length);
@@ -236,26 +182,26 @@
 
                 if (paginationRange[0] > 1) {
                     paginationContent += `
-                            <li class="page-item">
-                                <a class="page-link" href="#" id="prev-page">Previous</a>
-                            </li>
-                        `;
+                                <li class="page-item">
+                                    <a class="page-link" href="#" id="prev-page">Previous</a>
+                                </li>
+                            `;
                 }
 
                 for (let i = paginationRange[0]; i <= paginationRange[1] && i <= totalPages; i++) {
                     paginationContent += `
-                            <li class="page-item ${i === currentPage ? 'active' : ''}">
-                                <a class="page-link" href="#">${i}</a>
-                            </li>
-                        `;
+                                <li class="page-item ${i === currentPage ? 'active' : ''}">
+                                    <a class="page-link" href="#">${i}</a>
+                                </li>
+                            `;
                 }
 
                 if (paginationRange[1] < totalPages) {
                     paginationContent += `
-                            <li class="page-item">
-                                <a class="page-link" href="#" id="next-page">Next</a>
-                            </li>
-                        `;
+                                <li class="page-item">
+                                    <a class="page-link" href="#" id="next-page">Next</a>
+                                </li>
+                            `;
                 }
 
                 $('#pagination').html(paginationContent);
@@ -265,12 +211,12 @@
                 let selectedFoodsContent = '';
                 selectedFoods.forEach(food => {
                     selectedFoodsContent += `
-                            <tr>
-                                <td>${food.name}</td>
-                                <td>${food.carbs}</td>
-                                <td>${food.serving}</td>
-                            </tr>
-                        `;
+                                <tr>
+                                    <td>${food.name}</td>
+                                    <td>${food.carbs}</td>
+                                    <td>${food.serving}</td>
+                                </tr>
+                            `;
                 });
                 $('#selectedFoodsTable tbody').html(selectedFoodsContent);
             }
@@ -279,14 +225,14 @@
                 let carbInputsContent = '';
                 carbInputs.forEach((input, index) => {
                     carbInputsContent += `
-                            <tr>
-                                <td><input type="text" placeholder="Enter food" class="form-control" value="${input.food}" data-index="${index}" data-field="food" onblur="handleCarbInputChange(${index}, 'food', this.value)"></td>
-                                <td><input type="number" class="form-control carb-input" placeholder="Enter grams" value="${input.carbs}" data-index="${index}" data-field="carbs" oninput="handleCarbInputChange(${index}, 'carbs', this.value)"></td>
-                            </tr>
-                        `;
+                                <tr>
+                                    <td><input type="text" placeholder="Enter food" class="form-control" value="${input.food}" data-index="${index}" data-field="food"></td>
+                                    <td><input type="number" class="form-control carb-input" placeholder="Enter grams" value="${input.carbs}" data-index="${index}" data-field="carbs"></td>
+                                </tr>
+                            `;
                 });
                 $('#carbTable tbody').html(carbInputsContent);
-                updateTotalCarbs();
+                $('#totalCarbs').text(totalCarbsFromInputs());
             }
 
             function totalCarbsFromInputs() {
@@ -306,17 +252,6 @@
                 $('#insulinUnits').text(carbInsulin);
                 $('#carbInsulin').val(carbInsulin);
                 $('#totalInsulin').text(totalInsulin);
-            }
-
-            function handleCarbInputChange(index, field, value) {
-                carbInputs[index][field] = value;
-                updateTotalCarbs();
-                updateInsulinCalculations();
-            }
-
-            function updateTotalCarbs() {
-                const totalCarbs = totalCarbsFromInputs();
-                $('#totalCarbs').text(totalCarbs);
             }
 
             $('#search-input').on('input', function () {
@@ -378,10 +313,18 @@
                 renderPagination(searchResults.length);
             });
 
+            $(document).on('input', '.form-control', function () {
+                const index = $(this).data('index');
+                const field = $(this).data('field');
+                const value = $(this).val();
+                carbInputs[index][field] = value;
+                renderCarbInputs();
+                updateInsulinCalculations();
+            });
+
             $('#addRow').on('click', function () {
                 carbInputs.push({ food: '', carbs: 0 });
                 renderCarbInputs();
-                updateTotalCarbs();
             });
 
             $('#ratioInput, #ratioInput2').on('input', function () {
