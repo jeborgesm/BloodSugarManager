@@ -178,7 +178,7 @@ function CombinedPage() {
 
     return (
         <div className="container mt-4">
-            <h1 className="mb-4">Carb Table</h1>
+            <h1 className="mb-4">Carb Table JS</h1>
             <div className="form-group">
                 <input type="text" id="search-input" className="form-control" placeholder="Search for food" onInput={handleSearchInput} />
             </div>
