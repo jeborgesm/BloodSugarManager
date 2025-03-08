@@ -150,11 +150,6 @@
             updateInsulinCalculations();
         }
 
-        function updateTotalCarbs() {
-            const totalCarbs = totalCarbsFromInputs();
-            $('#totalCarbs').text(totalCarbs);
-        }
-
         $(document).ready(function () {
             let totalCarbs = 0;
             let selectedFoods = [];
@@ -264,6 +259,11 @@
                 $('#insulinUnits').text(carbInsulin);
                 $('#carbInsulin').val(carbInsulin);
                 $('#totalInsulin').text(totalInsulin);
+            }
+
+            function updateTotalCarbs() {
+                const totalCarbs = totalCarbsFromInputs();
+                $('#totalCarbs').text(totalCarbs);
             }
 
             $('#search-input').on('input', function () {
