@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 5000;
 
 /*app.use(express.static('public'));*/
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'build')))npm start
+app.use(express.static(path.join(__dirname, 'build')))
 
 app.get('/api/foods', (req, res) => {
     const query = req.query.query.toLowerCase();
