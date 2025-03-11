@@ -27,6 +27,10 @@
       "dest": "/carbtablefromjson.html"
     },
     {
+      "src": "/foodedit",
+      "dest": "/FoodsCrudPage"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
