@@ -85,8 +85,12 @@ app.delete('/api/foods/:productName', (req, res) => {
         });
 });
 
+// Serve static files from the build directory
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Catch-all route to serve index.html for all other requests
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/build/index.html'));
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {
