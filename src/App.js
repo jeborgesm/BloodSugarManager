@@ -4,6 +4,7 @@ import './App.css';
 import IndexPage from './IndexPage';
 import CarbTablePage from './CarbTablePage';
 import CarbTableFromJsonPage from './CarbTableFromJsonPage';
+import FoodsCrudPage from './FoodsCrudPage';
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                 <Route path="/" element={<IndexPage />} />
                 <Route path="/carbtable" element={<CarbTablePage />} />
                 <Route path="/carbtablefromjson" element={<CarbTableFromJsonPage />} />
+                <Route path="/foods" element={<FoodsCrudPage />} />
             </Routes>
         </Router>
     );
