@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function FoodsCrudPage() {
     const [foods, setFoods] = useState([]);
@@ -8,15 +8,15 @@ function FoodsCrudPage() {
     const [editFood, setEditFood] = useState({ product_name: '', carbohydrates_100g: '', serving_size: '' });
     const [paginationRange, setPaginationRange] = useState([1, 10]); // Initial range for pagination items
 
-    useEffect(() => {
-        fetchFoods();
-    }, [searchQuery, currentPage]);
-
     const fetchFoods = async () => {
         const response = await fetch(`/api/foods?query=${searchQuery}`);
         const data = await response.json();
         setFoods(data.foods);
     };
+
+    useEffect(() => {
+        fetchFoods();
+    }, [searchQuery, currentPage, fetchFoods]);
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
