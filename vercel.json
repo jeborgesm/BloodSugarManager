@@ -9,26 +9,14 @@
       }
     },
     {
-      "src": "app.py",
-      "use": "@vercel/python"
+      "src": "server.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/app.py"
-    },
-    {
-      "src": "/carbtable",
-      "dest": "/carbtable.html"
-    },
-    {
-      "src": "/carbtablefromjson",
-      "dest": "/carbtablefromjson.html"
-    },
-    {
-      "src": "/foodedit",
-      "dest": "/FoodsCrudPage"
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
@@ -36,4 +24,3 @@
     }
   ]
 }
-
