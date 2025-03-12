@@ -20,15 +20,15 @@
     },
     {
       "src": "/carbtable",
-      "dest": "/carbtable.html"
+      "dest": "/index.html"
     },
     {
       "src": "/carbtablefromjson",
-      "dest": "/carbtablefromjson.html"
+      "dest": "/index.html"
     },
     {
-      "src": "/foodedit",
-      "dest": "/FoodsCrudPage"
+      "src": "/foods",
+      "dest": "/index.html"
     },
     {
       "src": "/(.*)",
