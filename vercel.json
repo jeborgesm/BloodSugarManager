@@ -3,7 +3,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/server.js"
+      "dest": "/api/app.py"
     },
     {
       "src": "/carbtable",
@@ -15,7 +15,7 @@
     },
     {
       "src": "/foods",
-      "dest": "/index.html"
+      "dest": "/api/app.py"
     },
     {
       "src": "/(.*)",
