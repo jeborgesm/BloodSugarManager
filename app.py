@@ -18,14 +18,6 @@ app.logger.debug(f"Foods file path: {foods_file_path}")  # Log the file path
 def index():
     return send_from_directory(app.static_folder, 'index.html')
 
-@app.route('/carbtable')
-def serve_carb_table():
-    return send_from_directory(app.static_folder, 'carbtable.html')
-
-@app.route('/carbtablefromjson')
-def serve_carb_table_from_json():
-    return send_from_directory(app.static_folder, 'carbtablefromjson.html')
-
 @app.route('/saveFoods', methods=['POST'])
 def save_foods():
     data = request.get_json()
@@ -59,6 +51,11 @@ def search_foods():
     except Exception as e:
         app.logger.error(f"Error searching foods: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Catch-all route to serve index.html for all other requests
+@app.route('/<path:path>')
+def catch_all(path):
+    return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
     app.run(port=5000)
