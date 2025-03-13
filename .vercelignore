@@ -1,5 +1,4 @@
 .vs/
-public/carbtable.html
 public/carbtablefromjson.html
 proxy.py
 jeborgesm_pythonanywhere_com_wsgi.py
