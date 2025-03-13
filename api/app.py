@@ -4,7 +4,7 @@ import csv
 import os
 import logging
 
-app = Flask(__name__, static_folder='build')
+app = Flask(__name__, static_folder='../build')
 CORS(app)
 
 # Configure logging
